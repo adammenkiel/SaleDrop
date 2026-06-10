@@ -1,0 +1,13 @@
+
+import { AppOptions } from "../obj/AppOptions";
+import type { FastifyPluginAsync } from "fastify";
+
+const App : FastifyPluginAsync<AppOptions> = async (
+  fastify
+) : Promise<void> => {
+    fastify.post('/', async (request, reply) => {
+        return {message: "Test"};
+    });
+}
+
+export default App;
