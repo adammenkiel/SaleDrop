@@ -1,5 +1,6 @@
 import type { FastifyPluginAsync } from "fastify";
 import { RegisterBody, LoginBody, LoginSchema, RegisterSchema } from "../auth/auth-schemas";
+import fp from "fastify-plugin";
 import { AppError } from "../exception/app-errors";
 
 const Auth : FastifyPluginAsync = async (
@@ -28,16 +29,18 @@ const Auth : FastifyPluginAsync = async (
                 await fastify.userRepository.saveUser(request.body);
             } catch(err) {
                 if(err instanceof AppError) {
+                    console.log(err);
                     reply.code(err.errorCode).send(err.message);
                     return;
                 }
+                console.log(err);
                 reply.code(500).send("Error: " + err);
                 return;
             }
-            reply.code(200).send("Registered");
+            reply.code(200).send("Registered!");
             return;
         }
     );
 }
 
-export default Auth
+export default fp(Auth)

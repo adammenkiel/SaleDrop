@@ -11,7 +11,14 @@ export class UserRepository {
     }
 
     async saveUser(user : RegisterBody) : Promise<void> {
-        var hashPass = bcrypt.hash(user.password);
-        this.db.query("");
+        var hashPass = await bcrypt.hash(user.password, 10);
+        await this.db.query("INSERT INTO users (username, email, password) VALUES ($1, $2, $3)",
+            [user.username, user.email, hashPass]
+        );
+    }
+
+    async findUserByName(userName: string) : Promise<RegisterBody> {
+        const res = await this.db.query("SELECT * FROM users WHERE username = $1", [userName]);
+        return res.rows[0];
     }
 }

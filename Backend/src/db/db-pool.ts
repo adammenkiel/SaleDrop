@@ -1,6 +1,7 @@
 
 import type { FastifyPluginAsync } from "fastify";
 import { Pool } from "pg";
+import fp from "fastify-plugin";
 
 declare module "fastify" {
   interface FastifyInstance {
@@ -26,4 +27,4 @@ const DBPlugin : FastifyPluginAsync = async (
   });
 }
 
-export default DBPlugin;
+export default fp(DBPlugin);
