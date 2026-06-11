@@ -1,9 +1,4 @@
 
-export type LoginBody = {
-  username: string;
-  password: string;
-};
-
 export const LoginSchema = {
     type: "object",
     required: ["username", "password"],
@@ -16,12 +11,6 @@ export const LoginSchema = {
         }
     }
 }
-
-export type RegisterBody = {
-  username: string;
-  email: string;
-  password: string;
-};
 
 export const RegisterSchema = {
     type: "object",
