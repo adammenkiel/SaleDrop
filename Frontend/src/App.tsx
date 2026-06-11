@@ -2,10 +2,13 @@
 import NavigationBar from "@/components/layout/navigation-bar";
 import Footer from "./components/layout/footer";
 import EventCard from "./components/layout/event-card";
+import LoginCard from "./components/layout/auth/login-card";
+import RegisterCard from "./components/layout/auth/register-card";
 
   export default function App() {
     return (
       <>
+        <RegisterCard />
         {/* Navigation bar */}
         <NavigationBar />
 

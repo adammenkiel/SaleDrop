@@ -26,10 +26,10 @@ export default function NavigationBar() {
                 <NavigationMenu>
                   <NavigationMenuList>
                           <NavigationMenuItem className = "px-2">
-                              <NavigationMenuLink>Logowanie</NavigationMenuLink>
+                              <NavigationMenuLink onClick={() => {}}>Logowanie</NavigationMenuLink>
                           </NavigationMenuItem>
                           <NavigationMenuItem className = "px-2">
-                              <NavigationMenuLink>Rejestracja</NavigationMenuLink>
+                              <NavigationMenuLink onClick={() => {}}>Rejestracja</NavigationMenuLink>
                     </NavigationMenuItem>
                   </NavigationMenuList>
                 </NavigationMenu>
