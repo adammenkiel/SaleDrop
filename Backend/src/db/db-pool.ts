@@ -1,23 +1,29 @@
-import { error } from "node:console";
+
+import type { FastifyPluginAsync } from "fastify";
 import { Pool } from "pg";
 
-let dataBasePool: Pool;
-
-
-export async function connectDB() {
-  dataBasePool = new Pool({
+declare module "fastify" {
+  interface FastifyInstance {
+    db: Pool;
+  }
+}
+const DBPlugin : FastifyPluginAsync = async (
+  fastify
+) : Promise<void> => {
+  const db = new Pool({
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
     host: process.env.DB_HOST,
     port: Number(process.env.DB_PORT),
     database: process.env.DB_NAME
   });
-  await dataBasePool.query("SELECT 1");
+  
+  await db.query("SELECT 1");
+  fastify.decorate("db", db);
+
+  fastify.addHook("onClose", async () => {
+    await db.end();
+  });
 }
 
-export function getPool() : Pool {
-  if(!dataBasePool) {
-    throw new Error("There is no connection to database!");
-  }
-  return dataBasePool;
-}
+export default DBPlugin;

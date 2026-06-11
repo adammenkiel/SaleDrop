@@ -1,5 +1,3 @@
-
-import { AppOptions } from "../obj/AppOptions";
 import type { FastifyPluginAsync } from "fastify";
 
 const App : FastifyPluginAsync = async (
