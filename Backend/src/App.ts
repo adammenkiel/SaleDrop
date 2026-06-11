@@ -3,6 +3,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import type { FastifyInstance, FastifyPluginAsync } from "fastify";
 import DBPlugin from "./db/db-pool";
+import jwt from "@fastify/jwt"
 
 
 const filename = fileURLToPath(import.meta.url);
@@ -12,13 +13,24 @@ const App : FastifyPluginAsync = async (
   fastify: FastifyInstance,
   appOptions
 ) => {
+  //Loading special DB plugin 
   console.log("Connecting with db...")
   try {
-    fastify.register(DBPlugin);
+    await fastify.register(DBPlugin);
   } catch(err) {
     console.log("Database connection problem!");
     process.exit(1);
   }
+
+  //JWT
+  if(!process.env.JWT_TOKEN) {
+    console.log("Config problem!");
+    process.exit(1);
+  }
+  fastify.register(jwt, {
+    secret: process.env.JWT_TOKEN!
+  })
+
   console.log("Completed!");
   console.log("Plugins are loading...");
   void fastify.register(AutoLoad, {
