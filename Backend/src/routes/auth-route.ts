@@ -16,7 +16,7 @@ const Auth : FastifyPluginAsync = async (
         },
         async (request, reply) => {
             const user = await fastify.userRepository.findUserByName(request.body.username);
-            if(!bcrypt.compare(request.body.password, user.password)) {
+            if(!await bcrypt.compare(request.body.password, user.password)) {
                 throw new AppError("Wrong password", 401);
             }
             const token = fastify.jwt.sign(
