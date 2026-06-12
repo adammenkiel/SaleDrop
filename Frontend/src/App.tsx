@@ -8,17 +8,17 @@ import SuccessCard from "./components/layout/auth/success-card";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import EventsPage from "./pages/events-page";
 import MainPage from "./pages/main-page";
+import RulesPage from "./pages/rules-page";
 
   export default function App() {
     const { view } = useAuthContext();
     return (
       <BrowserRouter>
-        
         {/* Modals */}
         {view === "login" && (<LoginCard />)}
         {view === "register" && (<RegisterCard />)}
         {view === "success" && (<SuccessCard />)}
-        
+
         {/* Navigation bar */}
         <NavigationBar />
 
@@ -27,6 +27,7 @@ import MainPage from "./pages/main-page";
           <Routes>
             <Route path = "/" element = {<MainPage />} />
             <Route path = "/events" element = {<EventsPage />} />
+            <Route path = "/rules" element = {<RulesPage />} />
           </Routes>
         </div>
         {/* Footer */}
