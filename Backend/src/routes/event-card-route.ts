@@ -4,7 +4,8 @@ const EventCard : FastifyPluginAsync = async (
   fastify
 ) : Promise<void> => {
     fastify.post('/api/cards', async (request, reply) => {
-        return {message: "Test"};
+        
+        return fastify.eventCardRepository.getAll();
     });
 }
 

@@ -7,6 +7,10 @@ Frontend/build/
 Frontend/.next/
 Backend/dist/
 
+# ignored folder
+Ignored/
+Ignored/*
+
 # env files
 **/.env
 **/.env.*
