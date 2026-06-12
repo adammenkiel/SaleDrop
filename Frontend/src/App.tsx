@@ -4,11 +4,14 @@ import Footer from "./components/layout/footer";
 import EventCard from "./components/layout/event-card";
 import LoginCard from "./components/layout/auth/login-card";
 import RegisterCard from "./components/layout/auth/register-card";
+import { useAuthContext } from "./logic/auth-context";
 
   export default function App() {
+    const { view } = useAuthContext();
     return (
       <>
-        <RegisterCard />
+        {view === "login" && (<LoginCard />)}
+        {view === "register" && (<RegisterCard />)}
         {/* Navigation bar */}
         <NavigationBar />
 

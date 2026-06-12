@@ -7,6 +7,7 @@ import { Pool } from "pg";
 import fp from "fastify-plugin";
 import jwt from "@fastify/jwt";
 import cookie from "@fastify/cookie";
+import cors from '@fastify/cors';
 
 
 const filename = fileURLToPath(import.meta.url);
@@ -36,6 +37,7 @@ const App : FastifyPluginAsync = async (
     secret: process.env.JWT_SECRET!
   })
   await fastify.register(cookie);
+  await fastify.register(cors);
 
   console.log("Completed!");
   console.log("Plugins are loading...");

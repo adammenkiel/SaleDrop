@@ -4,9 +4,11 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
 } from "@/components/ui/navigation-menu"
+import { useAuthContext } from "@/logic/auth-context";
 
 
 export default function NavigationBar() {
+    const { setView } = useAuthContext();
     return (
         <div className="flex sticky items-center top-0 w-full h-13 mb-2 px-4 bg-blue-400/50 backdrop-blur">
             <NavigationMenu>
@@ -26,10 +28,10 @@ export default function NavigationBar() {
                 <NavigationMenu>
                   <NavigationMenuList>
                           <NavigationMenuItem className = "px-2">
-                              <NavigationMenuLink onClick={() => {}}>Logowanie</NavigationMenuLink>
+                              <NavigationMenuLink onClick={() => {setView("login")}}>Logowanie</NavigationMenuLink>
                           </NavigationMenuItem>
                           <NavigationMenuItem className = "px-2">
-                              <NavigationMenuLink onClick={() => {}}>Rejestracja</NavigationMenuLink>
+                              <NavigationMenuLink onClick={() => {setView("register")}}>Rejestracja</NavigationMenuLink>
                     </NavigationMenuItem>
                   </NavigationMenuList>
                 </NavigationMenu>

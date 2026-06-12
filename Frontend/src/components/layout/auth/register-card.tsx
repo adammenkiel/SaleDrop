@@ -10,11 +10,13 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useAuthContext } from "@/logic/auth-context";
 
 export default function RegisterCard() {
+	const { setView } = useAuthContext();
     return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-60">
-		<Card className="w-full max-w-sm">
+    <div onClick={() => setView(null)} className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-60">
+		<Card onClick={(event) => event.stopPropagation()} className="w-full max-w-sm">
 			<CardHeader>
 				<CardTitle>Create your account</CardTitle>
 				<CardDescription>
