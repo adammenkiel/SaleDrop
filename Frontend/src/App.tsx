@@ -5,6 +5,7 @@ import EventCard from "./components/layout/event-card";
 import LoginCard from "./components/layout/auth/login-card";
 import RegisterCard from "./components/layout/auth/register-card";
 import { useAuthContext } from "./logic/auth-context";
+import SuccessCard from "./components/layout/auth/success-card";
 
   export default function App() {
     const { view } = useAuthContext();
@@ -12,6 +13,7 @@ import { useAuthContext } from "./logic/auth-context";
       <>
         {view === "login" && (<LoginCard />)}
         {view === "register" && (<RegisterCard />)}
+        {view === "success" && (<SuccessCard />)}
         {/* Navigation bar */}
         <NavigationBar />
 

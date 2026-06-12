@@ -37,7 +37,10 @@ const App : FastifyPluginAsync = async (
     secret: process.env.JWT_SECRET!
   })
   await fastify.register(cookie);
-  await fastify.register(cors);
+await fastify.register(cors, {
+  origin: "http://localhost:5173",
+  credentials: true,
+});
 
   console.log("Completed!");
   console.log("Plugins are loading...");

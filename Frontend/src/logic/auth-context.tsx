@@ -1,7 +1,7 @@
 import { createContext, useContext, useState} from "react";
 import type { ReactNode } from "react";
 
-type AuthVisibilitySettings = "register" | "login" | null;
+type AuthVisibilitySettings = "register" | "login" | "success" | null;
 
 type AuthState = {
     view : AuthVisibilitySettings;

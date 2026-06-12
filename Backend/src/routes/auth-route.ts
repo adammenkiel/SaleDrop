@@ -47,7 +47,6 @@ const Auth : FastifyPluginAsync = async (
                 await fastify.userRepository.saveUser(request.body);
             } catch(err) {
                 if(err instanceof AppError) {
-                    console.log(err);
                     reply.code(err.errorCode).send(err.message);
                     return;
                 }

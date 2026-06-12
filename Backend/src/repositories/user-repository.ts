@@ -1,6 +1,7 @@
 import { Pool } from "pg";
 import { UserProfile } from "../auth/user-profile";
 import bcrypt from "bcrypt";
+import { AppError } from "../exception/app-errors";
 
 export class UserRepository {
 
@@ -12,9 +13,13 @@ export class UserRepository {
 
     async saveUser(user : UserProfile) : Promise<void> {
         var hashPass = await bcrypt.hash(user.password, 10);
-        await this.db.query("INSERT INTO users (username, email, password) VALUES ($1, $2, $3)",
-            [user.username, user.email, hashPass]
-        );
+        try {
+            await this.db.query("INSERT INTO users (username, email, password) VALUES ($1, $2, $3)",
+                [user.username, user.email, hashPass]
+            );
+        } catch(err) {
+            throw new AppError("User with the same data (email or username) already exists!", 409);
+        }
     }
 
     async findUserByName(userName: string) : Promise<UserProfile> {
