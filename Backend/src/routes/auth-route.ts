@@ -29,7 +29,7 @@ const Auth : FastifyPluginAsync = async (
                 httpOnly: true,
                 secure: false,
                 maxAge: 60*60,
-                sameSite: 'none'
+                sameSite: 'lax'
             });
 
             reply.code(200).send("Logged in!");

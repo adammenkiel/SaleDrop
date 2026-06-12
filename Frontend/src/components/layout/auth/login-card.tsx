@@ -33,6 +33,7 @@ export default function LoginCard() {
 			)
 		});
 		if(response.ok) {
+			localStorage.setItem("logged", "true");
 			window.location.reload();
 		}
 	};

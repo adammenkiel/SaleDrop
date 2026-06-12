@@ -5,7 +5,7 @@ const PreRequest : FastifyPluginAsync = async (
     fastify
 ) : Promise<void> => {
     fastify.addHook("onRequest", (request, reply, done) => {
-        console.log(request.url);
+
         if(request.url.startsWith("/api/auth")) {
             done();
             return;

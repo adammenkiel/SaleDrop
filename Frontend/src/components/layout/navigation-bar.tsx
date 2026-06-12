@@ -5,10 +5,32 @@ import {
   NavigationMenuList,
 } from "@/components/ui/navigation-menu"
 import { useAuthContext } from "@/logic/auth-context";
-
+import { useState } from "react";
 
 export default function NavigationBar() {
     const { setView } = useAuthContext();
+    const isLogged = localStorage.getItem("logged");
+
+    const [username, setUsername] = useState("");
+
+    const fetchMe = async () => {
+    	const response = await fetch("http://localhost:3000/api/me", {
+    		method: "POST",
+    		credentials: "include"
+    	});
+
+    	if(response.ok) {
+            const data = await response.json();
+    		setUsername(data.nickName);
+    	} else {
+            localStorage.removeItem("logged");
+            window.location.reload();
+        }
+    };
+    
+    if(isLogged) {
+        fetchMe();
+    }
     return (
         <div className="flex sticky items-center top-0 w-full h-13 mb-2 px-4 bg-blue-400/50 backdrop-blur">
             <NavigationMenu>
@@ -25,16 +47,22 @@ export default function NavigationBar() {
                 </NavigationMenuList>
             </NavigationMenu>
             <div className = "flex items-center ml-auto">
+                {!isLogged ? (
                 <NavigationMenu>
-                  <NavigationMenuList>
-                          <NavigationMenuItem className = "px-2">
-                              <NavigationMenuLink onClick={() => {setView("login")}}>Logowanie</NavigationMenuLink>
-                          </NavigationMenuItem>
-                          <NavigationMenuItem className = "px-2">
-                              <NavigationMenuLink onClick={() => {setView("register")}}>Rejestracja</NavigationMenuLink>
-                    </NavigationMenuItem>
-                  </NavigationMenuList>
+                    <NavigationMenuList>
+                        <NavigationMenuItem className = "px-2">
+                            <NavigationMenuLink onClick={() => {setView("login")}}>Logowanie</NavigationMenuLink>
+                        </NavigationMenuItem>
+                        <NavigationMenuItem className = "px-2">
+                            <NavigationMenuLink onClick={() => {setView("register")}}>Rejestracja</NavigationMenuLink>
+                        </NavigationMenuItem>
+                    </NavigationMenuList>
                 </NavigationMenu>
+                ) : (
+                    <>
+                        Logged as: {username}
+                    </>
+                )}
             </div>
         </div>
     );
