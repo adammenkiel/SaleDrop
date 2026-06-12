@@ -1,6 +1,6 @@
 import { Pool } from "pg";
 import { UserProfile } from "../auth/user-profile";
-import bcrypt from "bcrypt"
+import bcrypt from "bcrypt";
 
 export class UserRepository {
 

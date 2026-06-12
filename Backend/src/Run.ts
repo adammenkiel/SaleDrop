@@ -2,7 +2,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 import Fastify from "fastify";
-import App from "./App";
+import App from "./SaleDrop";
 
 const server = Fastify({
   logger: true
