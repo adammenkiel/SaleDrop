@@ -10,8 +10,7 @@ import { useState } from "react";
 export default function NavigationBar() {
     const { setView } = useAuthContext();
     const isLogged = localStorage.getItem("logged");
-
-    const [username, setUsername] = useState("");
+    const [username, setUsername] = useState(localStorage.getItem("nickname"));
 
     const fetchMe = async () => {
     	const response = await fetch("http://localhost:3000/api/me", {
@@ -21,9 +20,11 @@ export default function NavigationBar() {
 
     	if(response.ok) {
             const data = await response.json();
+            localStorage.setItem("nickname", data.nickName);
     		setUsername(data.nickName);
     	} else {
             localStorage.removeItem("logged");
+            localStorage.removeItem("nickname");
             window.location.reload();
         }
     };
