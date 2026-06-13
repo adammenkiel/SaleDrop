@@ -7,9 +7,9 @@ import {
     CardFooter,
     CardTitle,
 } from "@/components/ui/card";
+import { Field, FieldLabel } from "@/components/ui/field";
 
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import type { Dispatch, SetStateAction } from "react";
 
 type ReservationCardProps = {
@@ -23,37 +23,32 @@ export default function ReservationCard(props : ReservationCardProps) {
 		    	<CardHeader>
 		    		<CardTitle>Potwierdzenie rezerwacji</CardTitle>
 		    		<CardDescription>
-		    			Wstępna rezerwacja biletu została dokonana! Aby sfinalizować proces proszę wybrać metodę płatności.
+		    			Wstępna rezerwacja biletu została dokonana! Aby sfinalizować proces proszę wybrać metodę płatności i kliknij przycisk "Potwierdź rezerwację".
 		    		</CardDescription>
 		    	</CardHeader>
 		    	<CardContent>
 		    		<form>
 		    			<div className="flex flex-col gap-6">
-		    				<div className="grid gap-2">
-		    					<Label htmlFor="username">Nazwa uzytkownika</Label>
-		    					<Input
-		    						id="username"
-		    						type="text"
-		    						placeholder="SimpleNick123"
-		    						required
-		    					/>
-		    				</div>
-		    				<div className="grid gap-2">
-		    					<div className="flex items-center">
-		    						<Label htmlFor="password">Hasło</Label>
-		    					</div>
-		    					<Input 
-		    						id="password"
-		    						type="password"
-		    						required
-		    					/>
-		    				</div>
+                            <RadioGroup defaultValue="option1" className="w-fit">
+                                <Field orientation="horizontal">
+		                    		<RadioGroupItem value="option1" />
+		                    		<FieldLabel className="font-normal">
+		                    			SaleDrop Pay
+		                    		</FieldLabel>
+		                    	</Field>
+		                    	<Field orientation="horizontal" data-disabled>
+		                    		<RadioGroupItem value="option2" disabled />
+		                    		<FieldLabel className="font-normal">
+		                    			Karta debetowa
+		                    		</FieldLabel>
+		                    	</Field>
+		                    </RadioGroup> 
 		    			</div>
 		    		</form>
 		    	</CardContent>
 		    	<CardFooter className="flex-col gap-2">
 		    		<Button onClick={() => {}} type="submit" className="w-full">
-		    			Potwierdź rezerwację.
+		    			Potwierdź rezerwację
 		    		</Button>
 		    	</CardFooter>
 		    </Card>
