@@ -10,18 +10,6 @@ export default function EventDetailsPage() {
     const [card, setCard] = useState<EventCardEntity>();
     const [reserved, setReserved] = useState(false);
 
-    const pay = async () => {
-	    const response = await fetch("http://localhost:3000/pay/" + id, {
-	    	method: "POST",
-	    	credentials: "include",
-	    	headers: {
-	    		"Content-Type": "application/json"
-	    	}
-	    });
-        const json = await response.json();
-        setCard(parse(json));
-    }
-
     useEffect(() => {
         const parse = (dto: any) : EventCardEntity => {
             return {
@@ -52,7 +40,7 @@ export default function EventDetailsPage() {
         <>
         {reserved && (
             <>
-                <ReservationCard ticketId={id} setReserved={setReserved} />
+                <ReservationCard ticketId={id} cost={card.cost} setReserved={setReserved} />
             </>
         )}
         <div className="text-center my-10">

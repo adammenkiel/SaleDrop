@@ -22,7 +22,7 @@ const PayRoute : FastifyPluginAsync = async (
     });
 
     type PayMoneyAmountBody = {
-        money: number;
+        ticket_id: string;
     }
 
     fastify.post<{Body: PayMoneyAmountBody}>("/pay",
@@ -30,11 +30,10 @@ const PayRoute : FastifyPluginAsync = async (
             schema: {
                 body: {
                     type: "object",
-                    required: ["money"],
+                    required: ["ticket_id"],
                     properties: {
-                        money: {
-                            type: "number",
-                            minimum: 0
+                        ticket_id: {
+                            type: "string"
                         }
                     }
                 }
@@ -47,7 +46,7 @@ const PayRoute : FastifyPluginAsync = async (
             }
             const tokenData = jwtDecode<Token>(token); // validated by page-preload.ts
 
-            return fastify.saleDropPayService.payMoney(tokenData.userName, request.body.money);
+            return fastify.saleDropPayService.payForTicket(tokenData.userName, request.body.ticket_id);
         }
     );
 }

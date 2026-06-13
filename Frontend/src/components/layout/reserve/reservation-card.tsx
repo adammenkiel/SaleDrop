@@ -14,27 +14,27 @@ import { useEffect, type Dispatch, type SetStateAction } from "react";
 
 type ReservationCardProps = {
     ticketId: string;
+    cost: number;
     setReserved: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function ReservationCard(props : ReservationCardProps) {
 
-    const pay = async () => { // to correct
-	    const response = await fetch("http://localhost:3000/pay/" + props.ticketId, {
+    const pay = async (ticketId: string) => { // to correct
+	    const response = await fetch("http://localhost:3000/pay", {
 	    	method: "POST",
 	    	credentials: "include",
 	    	headers: {
 	    		"Content-Type": "application/json"
-	    	}
+	    	},
+            body: JSON.stringify({
+                ticket_id: ticketId
+            })
 	    });
         if(response.ok) {
             window.location.href = "/";
         }
     }
-
-    useEffect(() => {
-
-    });
     return (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-60">
 		    <Card onClick={(event) => event.stopPropagation()} className="w-full max-w-sm">
@@ -65,7 +65,7 @@ export default function ReservationCard(props : ReservationCardProps) {
 		    		</form>
 		    	</CardContent>
 		    	<CardFooter className="flex-col gap-2">
-		    		<Button onClick={() => {}} type="submit" className="w-full">
+		    		<Button onClick={() => {pay(props.ticketId)}} type="submit" className="w-full">
 		    			Potwierdź rezerwację
 		    		</Button>
 		    	</CardFooter>
