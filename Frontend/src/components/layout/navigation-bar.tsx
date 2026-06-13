@@ -39,9 +39,11 @@ export default function NavigationBar() {
                     <NavigationMenuItem onClick={() => {window.location.href = "/"}} className = "px-2">
                         <NavigationMenuLink>Strona główna</NavigationMenuLink>
                     </NavigationMenuItem>
-                    <NavigationMenuItem onClick={() => {window.location.href = "/events"}} className = "px-2">
-                        <NavigationMenuLink>Wydarzenia</NavigationMenuLink>
-                    </NavigationMenuItem>
+                    {isLogged && (
+                        <NavigationMenuItem onClick={() => {window.location.href = "/events"}} className = "px-2">
+                            <NavigationMenuLink>Wydarzenia</NavigationMenuLink>
+                        </NavigationMenuItem>
+                    )}
                     <NavigationMenuItem onClick={() => {window.location.href = "/rules"}} className = "px-2">
                         <NavigationMenuLink>Regulamin</NavigationMenuLink>
                     </NavigationMenuItem>

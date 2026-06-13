@@ -8,7 +8,7 @@ declare module "fastify" {
   interface FastifyInstance {
     userRepository: UserRepository;
     eventCardRepository: EventCardRepository;
-    saleDropPayRepository: SaleDropPayService;
+    saleDropPayService: SaleDropPayService;
   }
 }
 

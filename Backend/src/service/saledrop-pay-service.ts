@@ -9,11 +9,12 @@ export class SaleDropPayService {
     }
 
     async getUserWalletBalance(userName: string): Promise<number> {
+        console.log(userName);
         const res = await this.db.query(
             "SELECT w.money FROM wallet w JOIN users u ON u.id=w.id WHERE u.username=$1",
             [userName]
         );
-        return res.rows[0]?.balance ?? 0;
+        return res.rows[0]?.money ?? 0;
     }
 
     //To correct
