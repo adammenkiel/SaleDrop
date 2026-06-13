@@ -10,19 +10,20 @@ import {
 
 
 type EventCardProps = {
+    ticketId: number,
     name : string,
     shortDescription : string,
     price : number
 };
 
-export default function EventCard({name, shortDescription, price} : EventCardProps) {
+export default function EventCard({ticketId, name, shortDescription, price} : EventCardProps) {
     return (
         <Card>
             <CardHeader>
                 <CardTitle>{name}</CardTitle>
                 <CardDescription>{shortDescription}</CardDescription>
                 <CardAction>
-                    <Button variant={"default"} className={"bg-blue-800"}>Więcej informacji</Button>
+                    <Button onClick={() => {window.location.href="/events/" + ticketId}} variant={"default"} className={"bg-blue-800"}>Więcej informacji</Button>
                 </CardAction>
             </CardHeader>
             <CardContent>

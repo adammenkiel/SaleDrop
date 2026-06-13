@@ -9,6 +9,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import EventsPage from "./pages/events-page";
 import MainPage from "./pages/main-page";
 import RulesPage from "./pages/rules-page";
+import EventDetailsPage from "./pages/event-details-page";
 
   export default function App() {
     const { view } = useAuthContext();
@@ -27,6 +28,7 @@ import RulesPage from "./pages/rules-page";
           <Routes>
             <Route path = "/" element = {<MainPage />} />
             <Route path = "/events" element = {<EventsPage />} />
+            <Route path="/events/:id" element={<EventDetailsPage />} />
             <Route path = "/rules" element = {<RulesPage />} />
           </Routes>
         </div>

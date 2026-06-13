@@ -14,5 +14,14 @@ export class EventCardRepository {
         const res = await this.db.query("SELECT * FROM tickets");
         return res.rows;
     }
+
+    async getEventCardById(id: number): Promise<EventCard> {
+        const res = await this.db.query("SELECT * FROM tickets WHERE ticket_id=$1", [id]);
+        const eventCard: EventCard = res.rows[0] as EventCard;
+        const resInfo = await this.db.query("SELECT * FROM ticket_info WHERE ticket_id=$1", [id]);
+        eventCard.cost = resInfo.rows[0].cost;
+        eventCard.amount = resInfo.rows[0].tickets_amount;
+        return eventCard;
+    }
     
 }

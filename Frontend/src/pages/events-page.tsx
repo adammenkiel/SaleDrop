@@ -9,7 +9,7 @@ export default function EventsPage() {
     useEffect(() => {
         const fetchCards = async () => {
     	    const response = await fetch("http://localhost:3000/api/cards", {
-    	    	method: "POST",
+    	    	method: "GET",
     	    	credentials: "include"
     	    });
             const jsonResponse = await response.json();
@@ -27,7 +27,7 @@ export default function EventsPage() {
             {data.map((item) => {
                 const card = item as any;
                 return (
-                    <EventCard key={card.ticket_id} name={card.name} shortDescription={card.short_description} price={123} />
+                    <EventCard ticketId={card.ticket_id} key={card.ticket_id} name={card.name} shortDescription={card.short_description} price={123} />
                 );
             })}
         </div>
