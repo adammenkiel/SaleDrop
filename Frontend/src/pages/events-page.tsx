@@ -1,9 +1,10 @@
 import EventCard from "@/components/layout/event-card";
+import type { EventCardEntity } from "@/entities/event-card-entity";
 import { useEffect, useState } from "react";
 
 export default function EventsPage() {
     //Temporary
-    const [data, setData]= useState<unknown[]>([]);
+    const [data, setData]= useState<EventCardEntity[]>([]);
 
     
     useEffect(() => {
@@ -25,9 +26,15 @@ export default function EventsPage() {
     return (
         <div className="flex flex-col gap-4">
             {data.map((item) => {
-                const card = item as any;
+                const card = item as EventCardEntity;
                 return (
-                    <EventCard ticketId={card.ticket_id} key={card.ticket_id} name={card.name} shortDescription={card.short_description} price={123} />
+                    <EventCard 
+                        ticketId={card.ticket_id}
+                        key={card.ticket_id}
+                        name={card.name}
+                        shortDescription={card.short_description}
+                        price={card.cost}
+                    />
                 );
             })}
         </div>
