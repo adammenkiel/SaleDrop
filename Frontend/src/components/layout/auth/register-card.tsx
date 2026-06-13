@@ -7,7 +7,7 @@ import {
     CardHeader,
     CardFooter,
     CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuthContext } from "@/logic/auth-context";

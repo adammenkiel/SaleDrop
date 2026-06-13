@@ -1,3 +1,4 @@
+import ReservationCard from "@/components/layout/reserve/reservation-card";
 import { Button } from "@/components/ui/button";
 import type { EventCardEntity } from "@/entities/event-card-entity";
 import { useEffect, useState } from "react";
@@ -7,7 +8,7 @@ import { useParams } from "react-router-dom";
 export default function EventDetailsPage() {
     const { id } = useParams();
     const [card, setCard] = useState<EventCardEntity>();
-
+    const [reserved, setReserved] = useState(false);
 
 
     useEffect(() => {
@@ -32,21 +33,28 @@ export default function EventDetailsPage() {
             setCard(parse(json));
         }
         fetchTicket();
-    });
+    }, [id]);
 
     if(card === undefined) return (<></>);
     
     return (
-    <div className="text-center my-10">
-        <h1 className="text-3xl font-bold gray-900">Wydarzenie: {card.name}</h1>
-        <h1 className="text-2xl gray-900">Pełny opis: {card.description}</h1>
-        <br />
-        <h1 className="text-1xl gray-900"> Koszt kupna biletu: {card.cost} zł</h1>
-        <br />
-        <h1 className="text-1xl gray-900"> Bilety można kupować do: {card.ticket_date.toLocaleString("pl-PL")}</h1>
-        <h1 className="text-1xl gray-900"> Data rozpoczęcia: {card.start_event_date.toLocaleString("pl-PL")}</h1>
-        <h1 className="text-1xl gray-900"> Data zakończenia: {card.end_event_date.toLocaleString("pl-PL")}</h1>
-        <Button className="flex mx-auto mt-7 bg-blue-300" variant={"outline"}>Zarezerwuj bilet</Button>
-    </div>
+        <>
+        {reserved && (
+            <>
+                <ReservationCard/>
+            </>
+        )}
+        <div className="text-center my-10">
+            <h1 className="text-3xl font-bold gray-900">Wydarzenie: {card.name}</h1>
+            <h1 className="text-2xl gray-900">Pełny opis: {card.description}</h1>
+            <br />
+            <h1 className="text-1xl gray-900"> Koszt kupna biletu: {card.cost} zł</h1>
+            <br />
+            <h1 className="text-1xl gray-900"> Bilety można kupować do: {card.ticket_date.toLocaleString("pl-PL")}</h1>
+            <h1 className="text-1xl gray-900"> Data rozpoczęcia: {card.start_event_date.toLocaleString("pl-PL")}</h1>
+            <h1 className="text-1xl gray-900"> Data zakończenia: {card.end_event_date.toLocaleString("pl-PL")}</h1>
+            <Button onClick={() => setReserved(true)} className="flex mx-auto mt-7 bg-blue-300" variant={"outline"}>Zarezerwuj bilet</Button>
+        </div>
+        </>
     );
 }

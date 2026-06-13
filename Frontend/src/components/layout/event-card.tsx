@@ -10,7 +10,7 @@ import {
 
 
 type EventCardProps = {
-    ticketId: number,
+    ticketId: string,
     name : string,
     shortDescription : string,
     price : number
