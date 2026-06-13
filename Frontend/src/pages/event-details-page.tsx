@@ -36,12 +36,12 @@ export default function EventDetailsPage() {
     }, [id]);
 
     if(card === undefined) return (<></>);
-    
+    if(id === undefined) return(<></>)
     return (
         <>
         {reserved && (
             <>
-                <ReservationCard/>
+                <ReservationCard ticketId={id} setReserved={setReserved} />
             </>
         )}
         <div className="text-center my-10">

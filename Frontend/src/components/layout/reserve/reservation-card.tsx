@@ -13,7 +13,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import type { Dispatch, SetStateAction } from "react";
 
 type ReservationCardProps = {
-    setState: Dispatch<SetStateAction<number>>;
+    ticketId: string;
+    setReserved: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function ReservationCard(props : ReservationCardProps) {
