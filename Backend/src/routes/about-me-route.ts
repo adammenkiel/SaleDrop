@@ -16,7 +16,13 @@ const AboutMe : FastifyPluginAsync = async (
             return;
         }
         const tokenData = jwtDecode<Token>(token);
-        return {id: tokenData.userId, nickName: tokenData.userName};
+        const money = await fastify.saleDropPayService.getUserWalletBalance(tokenData.userName);
+        console.log(money);
+        return {
+                id: tokenData.userId,
+                nickName: tokenData.userName,
+                money: money // There is more optimal solutions
+            };
     });
 }
 

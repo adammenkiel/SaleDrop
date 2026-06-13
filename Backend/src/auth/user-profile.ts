@@ -4,4 +4,5 @@ export type UserProfile = {
     username: string;
     email?: string;
     password: string;
+    money?: number;
 };

@@ -5,33 +5,37 @@ import {
   NavigationMenuList,
 } from "@/components/ui/navigation-menu"
 import { useAuthContext } from "@/logic/auth-context";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function NavigationBar() {
     const { setView } = useAuthContext();
     const isLogged = localStorage.getItem("logged");
     const [username, setUsername] = useState(localStorage.getItem("nickname"));
+    const [money, setMoney] = useState(localStorage.getItem("money"));
 
-    const fetchMe = async () => {
-    	const response = await fetch("http://localhost:3000/api/me", {
-    		method: "POST",
-    		credentials: "include"
-    	});
-
-    	if(response.ok) {
-            const data = await response.json();
-            localStorage.setItem("nickname", data.nickName);
-    		setUsername(data.nickName);
-    	} else {
-            localStorage.removeItem("logged");
-            localStorage.removeItem("nickname");
-            window.location.reload();
+    useEffect(() => {
+        const fetchMe = async () => {
+    	    const response = await fetch("http://localhost:3000/api/me", {
+    	    	method: "POST",
+    	    	credentials: "include"
+    	    });
+    	    if(response.ok) {
+                const data = await response.json();
+                localStorage.setItem("money", data.money);
+                localStorage.setItem("nickname", data.nickName);
+                setMoney(data.money);
+    	    	setUsername(data.nickName);
+    	    } else {
+                localStorage.removeItem("logged");
+                localStorage.removeItem("nickname");
+                window.location.reload();
+            }
+        };
+        if(isLogged) {
+            fetchMe();
         }
-    };
+    }, [isLogged]);
     
-    if(isLogged) {
-        fetchMe();
-    }
     return (
         <div className="flex sticky items-center top-0 w-full h-13 mb-2 px-4 bg-blue-400/50 backdrop-blur">
             <NavigationMenu>
@@ -62,9 +66,10 @@ export default function NavigationBar() {
                     </NavigationMenuList>
                 </NavigationMenu>
                 ) : (
-                    <>
-                        Logged as: {username}
-                    </>
+                    <div>
+                        Zalogowano jako: <b>{username}</b><br />
+                        Portfel SaleDrop Pay: <b>{money} PLN</b>
+                    </div>
                 )}
             </div>
         </div>

@@ -10,6 +10,17 @@ export default function EventDetailsPage() {
     const [card, setCard] = useState<EventCardEntity>();
     const [reserved, setReserved] = useState(false);
 
+    const pay = async () => {
+	    const response = await fetch("http://localhost:3000/pay/" + id, {
+	    	method: "POST",
+	    	credentials: "include",
+	    	headers: {
+	    		"Content-Type": "application/json"
+	    	}
+	    });
+        const json = await response.json();
+        setCard(parse(json));
+    }
 
     useEffect(() => {
         const parse = (dto: any) : EventCardEntity => {
@@ -49,6 +60,7 @@ export default function EventDetailsPage() {
             <h1 className="text-2xl gray-900">Pełny opis: {card.description}</h1>
             <br />
             <h1 className="text-1xl gray-900"> Koszt kupna biletu: {card.cost} zł</h1>
+            <h1 className="text-1xl gray-900"> Ilość pozostałych biletów: {card.amount}</h1>
             <br />
             <h1 className="text-1xl gray-900"> Bilety można kupować do: {card.ticket_date.toLocaleString("pl-PL")}</h1>
             <h1 className="text-1xl gray-900"> Data rozpoczęcia: {card.start_event_date.toLocaleString("pl-PL")}</h1>

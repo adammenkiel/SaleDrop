@@ -16,14 +16,40 @@ const PayRoute : FastifyPluginAsync = async (
         if(token == null) {
             return;
         }
-        const tokenData = jwtDecode<Token>(token);
+        const tokenData = jwtDecode<Token>(token); // validated by page-preload.ts
 
         return fastify.saleDropPayService.getUserWalletBalance(tokenData.userName);
     });
 
-    fastify.post("/pay", async (request, reply) => {
+    type PayMoneyAmountBody = {
+        money: number;
+    }
 
-    });
+    fastify.post<{Body: PayMoneyAmountBody}>("/pay",
+        {
+            schema: {
+                body: {
+                    type: "object",
+                    required: ["money"],
+                    properties: {
+                        money: {
+                            type: "number",
+                            minimum: 0
+                        }
+                    }
+                }
+            }
+        },
+        async (request, reply) => {
+            const token = request.cookies.token;
+            if(token == null) {
+                return;
+            }
+            const tokenData = jwtDecode<Token>(token); // validated by page-preload.ts
+
+            return fastify.saleDropPayService.payMoney(tokenData.userName, request.body.money);
+        }
+    );
 }
 
 export default PayRoute;

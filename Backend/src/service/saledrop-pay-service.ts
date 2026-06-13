@@ -18,11 +18,11 @@ export class SaleDropPayService {
     }
 
     //To correct
-    async payMoney(userName: string, money: number) : Promise<boolean> {
+    async payMoney(userName: string, money: number) {
         const userId = (await this.db.query("SELECT id FROM users WHERE username=$1", [userName])).rows[0].id;
-        const res = await this.db.query("UPDATE wallet SET money=money-$1 WHERE id=$2 AND money>=$1", [money, userId]);
-        if(res == null || res.rowCount == null)
-            return false;
-        return res.rowCount > 0;
+        const res = await this.db.query("UPDATE wallet SET money=money-$1 WHERE id=$2 AND money>=$1 RETURNING money", [money, userId]);
+        if(res == null || res.rowCount == null || res.rows.length == 0)
+            return {result: false};
+        return {result: res.rowCount > 0};
     }
 }

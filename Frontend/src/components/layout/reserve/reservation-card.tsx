@@ -10,7 +10,7 @@ import {
 import { Field, FieldLabel } from "@/components/ui/field";
 
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import type { Dispatch, SetStateAction } from "react";
+import { useEffect, type Dispatch, type SetStateAction } from "react";
 
 type ReservationCardProps = {
     ticketId: string;
@@ -18,6 +18,23 @@ type ReservationCardProps = {
 }
 
 export default function ReservationCard(props : ReservationCardProps) {
+
+    const pay = async () => { // to correct
+	    const response = await fetch("http://localhost:3000/pay/" + props.ticketId, {
+	    	method: "POST",
+	    	credentials: "include",
+	    	headers: {
+	    		"Content-Type": "application/json"
+	    	}
+	    });
+        if(response.ok) {
+            window.location.href = "/";
+        }
+    }
+
+    useEffect(() => {
+
+    });
     return (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-60">
 		    <Card onClick={(event) => event.stopPropagation()} className="w-full max-w-sm">
