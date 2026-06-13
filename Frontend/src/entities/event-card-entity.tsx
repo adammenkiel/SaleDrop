@@ -1,5 +1,5 @@
 export type EventCardEntity = {
-    ticket_id: number,
+    ticket_id: string,
     name: string,
     short_description: string,
     description: string,
