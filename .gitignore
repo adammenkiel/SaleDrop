@@ -2,9 +2,9 @@
 **/node_modules/
 
 # builds
-Frontend/dist/
-Frontend/build/
-Frontend/.next/
+sale-drop/dist/
+sale-drop/build/
+sale-drop/.next/
 Backend/dist/
 
 # ignored folder
