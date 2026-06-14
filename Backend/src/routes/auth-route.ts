@@ -1,9 +1,10 @@
 import type { FastifyPluginAsync } from "fastify";
-import { LoginSchema, RegisterSchema } from "../auth/auth-schemas";
 import { UserProfile } from "../auth/user-profile";
 import fp from "fastify-plugin";
 import { AppError } from "../exception/app-errors";
 import bcrypt from "bcrypt"
+import { LoginSchema } from "../schemas/login-schema";
+import { RegisterSchema } from "../schemas/register-schema";
 
 const Auth : FastifyPluginAsync = async (
     fastify

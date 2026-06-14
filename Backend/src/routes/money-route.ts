@@ -1,5 +1,6 @@
 import { FastifyPluginAsync } from "fastify";
 import { jwtDecode } from "jwt-decode";
+import { TicketIdBody, TicketSchema } from "../schemas/ticket-schema";
 
 
 type Token = {
@@ -21,22 +22,11 @@ const PayRoute : FastifyPluginAsync = async (
         return fastify.saleDropPayService.getUserWalletBalance(tokenData.userName);
     });
 
-    type PayMoneyAmountBody = {
-        ticket_id: string;
-    }
 
-    fastify.post<{Body: PayMoneyAmountBody}>("/pay",
+    fastify.post<{Body: TicketIdBody}>("/pay",
         {
             schema: {
-                body: {
-                    type: "object",
-                    required: ["ticket_id"],
-                    properties: {
-                        ticket_id: {
-                            type: "string"
-                        }
-                    }
-                }
+                body: TicketSchema
             }
         },
         async (request, reply) => {

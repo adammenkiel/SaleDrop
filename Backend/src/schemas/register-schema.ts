@@ -1,17 +1,4 @@
 
-export const LoginSchema = {
-    type: "object",
-    required: ["username", "password"],
-    properties: {
-        username: {
-            type: "string"
-        },
-        password: {
-            type: "string"
-        }
-    }
-}
-
 export const RegisterSchema = {
     type: "object",
     required: ["username", "email", "password"],
