@@ -106,8 +106,8 @@ export class ReservationService {
     async checkReservation(userId: string, ticketId: string): Promise<boolean> {
         await this.cleanReservation(userId, ticketId);
         const response = await this.db.query(
-            "SELECT 1 FROM reservations WHERE user_id=$1 AND ticket_id=$2 AND NOW() < end_date LIMIT 1",
-            [userId, ticketId]
+            "SELECT 1 FROM reservations WHERE user_id=$1 AND ticket_id=$2 AND NOW() < end_date AND status=$3 LIMIT 1",
+            [userId, ticketId, "PENDING"]
         )
         return response.rows.length > 0;
     }

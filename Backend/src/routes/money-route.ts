@@ -31,7 +31,9 @@ const PayRoute : FastifyPluginAsync = async (
                 return;
             }
             const tokenData = jwtDecode<Token>(token); // validated by page-preload.ts
-
+            if(await fastify.reservationService.checkReservation(tokenData.userId, request.body.ticket_id) === false) {
+                return false; //add throw?
+            }
             return fastify.saleDropPayService.payForTicket(tokenData.userName, request.body.ticket_id);
         }
     );
