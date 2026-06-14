@@ -6,8 +6,8 @@ export const TicketSchema = {
             type: "string"
         }
     }
-}
+};
 
 export type TicketIdBody = {
     ticket_id: string;
-}
+};

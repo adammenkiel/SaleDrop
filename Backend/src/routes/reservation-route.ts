@@ -6,7 +6,9 @@ const ReservationRoute : FastifyPluginAsync = async (
 ) : Promise<void> => {
   fastify.post<{Body: TicketIdBody}>("/reserve", 
     {
-      schema: TicketSchema
+      schema: {
+        body: TicketSchema
+      }
     },
     async (request, reply) => {
       
