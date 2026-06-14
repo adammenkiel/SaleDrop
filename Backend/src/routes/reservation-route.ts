@@ -26,5 +26,25 @@ const ReservationRoute : FastifyPluginAsync = async (
       return true;
     }
   );
+  fastify.get<{Params: TicketIdBody}>("/reserve/:ticket_id",
+    {
+      schema: {
+        params: TicketSchema
+      }
+    },
+    async (request, reply) => {
+      try {
+        const token = request.cookies.token;
+        if(token == null) {
+            return;
+        }
+        const tokenData = jwtDecode<Token>(token); // validated by page-preload.ts
+        const res = await fastify.reservationService.checkReservation(tokenData.userId, request.params.ticket_id);
+        return res;
+      } catch (err) {
+        throw err;
+      }
+    } 
+  );
 }
 export default ReservationRoute;

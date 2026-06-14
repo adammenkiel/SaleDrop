@@ -21,7 +21,7 @@ export default function NavigationBar() {
     	    	method: "POST",
     	    	credentials: "include"
     	    });
-    	    if(response.ok) {
+    	    if (response.ok) {
                 const data = await response.json();
                 localStorage.setItem("money", data.money);
                 localStorage.setItem("nickname", data.nickName);

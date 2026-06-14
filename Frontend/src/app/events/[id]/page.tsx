@@ -10,6 +10,27 @@ export default function App() {
     const { id } = useParams();
     const [card, setCard] = useState<EventCardEntity>();
     const [reserved, setReserved] = useState(false);
+    const [alreadyReserving, setAlreadyReserving] = useState(false);
+
+    const reserve = async () => {
+        const response = await fetch("http://localhost:3000/reserve", {
+			method: "POST",
+			credentials: "include",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(
+				{
+					"ticket_id": id
+				}
+			)
+		});
+        if(!await response.json()) {
+            setAlreadyReserving(false);
+            setReserved(false);
+            //window.location.href = "events/" + id;
+        }
+    }
 
     useEffect(() => {
         const parse = (dto: any) : EventCardEntity => {
@@ -33,6 +54,18 @@ export default function App() {
             setCard(parse(json));
         }
         fetchTicket();
+
+        const inReserveProcessCheck = async () => { // to correct
+	        const response = await fetch("http://localhost:3000/reserve/" + id, {
+	        	method: "GET",
+	        	credentials: "include",
+	        	headers: {
+	        		"Content-Type": "application/json"
+	        	}
+	        });
+            setAlreadyReserving(await response.json());
+        }
+        inReserveProcessCheck();
     }, [id]);
 
     if(card === undefined) return (<></>);
@@ -57,7 +90,15 @@ export default function App() {
             <h1 className="text-1xl gray-900"> Bilety można kupować do: {card.ticket_date.toLocaleString("pl-PL")}</h1>
             <h1 className="text-1xl gray-900"> Data rozpoczęcia: {card.start_event_date.toLocaleString("pl-PL")}</h1>
             <h1 className="text-1xl gray-900"> Data zakończenia: {card.end_event_date.toLocaleString("pl-PL")}</h1>
-            <Button onClick={() => setReserved(true)} className="flex mx-auto mt-7 bg-blue-300" variant={"outline"}>Zarezerwuj bilet</Button>
+
+            <Button onClick={
+                () => {
+                    reserve();
+                    setReserved(true)
+                }
+            } disabled={alreadyReserving} className="flex mx-auto mt-7 bg-blue-300" variant={"outline"}>
+                {alreadyReserving ? <>Jesteś w trakcie rezerwacji</> : <>Zarezerwuj bilet</>}
+            </Button>
         </div>
         </>
     );
