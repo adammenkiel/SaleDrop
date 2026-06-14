@@ -1,39 +1,44 @@
 "use client"
 
+import EventCard from "@/components/layout/event-card";
+import { EventCardEntity } from "@/entities/event-card-entity";
+import { useEffect, useState } from "react";
 
-import NavigationBar from "@/components/layout/navigation-bar";
-import Footer from "@/components/layout/footer";
-import LoginCard from "@/components/layout/auth/login-card";
-import RegisterCard from "@/components/layout/auth/register-card";
-import { AuthProvider, useAuthContext } from "@/logic/auth-context";
-import SuccessCard from "@/components/layout/auth/success-card";
-import { AppProps } from "next/app";
-import EventsPage from "@/pages/events-page";
 
-export function AuthModals() {
-    const { view } = useAuthContext();
+export default function App() {
+    //Temporary
+    const [data, setData]= useState<EventCardEntity[]>([]);
+  
+    useEffect(() => {
+        const fetchCards = async () => {
+          const response = await fetch("http://localhost:3000/api/cards", {
+            method: "GET",
+            credentials: "include"
+          });
+            const jsonResponse = await response.json();
+            console.log(jsonResponse);
+            setData(jsonResponse);
+        };
+        fetchCards();
+    }, []);
+    if(data.length == 0) {
+        return (<></>);
+    }
+
     return (
-    <>
-      {view === "login" && (<LoginCard />)}
-      {view === "register" && (<RegisterCard />)}
-      {view === "success" && (<SuccessCard />)}
-    </>
-    )
-}
-
-export default function App({ Component, pageProps }: AppProps) {
-  return (
-    <AuthProvider>
-      {/* Modals */}
-      <AuthModals />
-      {/* Navigation bar */}
-      <NavigationBar />
-      {/* Page content */}
-      <div className="mx-[10%]">
-        <EventsPage/>
-      </div>
-      {/* Footer */}
-      <Footer />
-    </AuthProvider>
-  );
+        <div className="flex flex-col gap-4">
+            {data.map((item) => {
+                const card = item as EventCardEntity;
+                return (
+                    <EventCard 
+                        ticketId={card.ticket_id}
+                        key={card.ticket_id}
+                        name={card.name}
+                        shortDescription={card.short_description}
+                        price={card.cost}
+                    />
+                );
+            })}
+        </div>
+    );
 }

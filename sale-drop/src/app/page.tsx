@@ -1,43 +1,16 @@
 "use client"
 
+import { Button } from "./components/ui/button";
 
-import NavigationBar from "@/components/layout/navigation-bar";
-import Footer from "./components/layout/footer";
-import LoginCard from "./components/layout/auth/login-card";
-import RegisterCard from "./components/layout/auth/register-card";
-import { AuthProvider, useAuthContext } from "./logic/auth-context";
-import SuccessCard from "./components/layout/auth/success-card";
-
-console.log('NavigationBar:', NavigationBar);
-console.log('Footer:', Footer);
-
-import { AppProps } from "next/app";
-import MainPage from "./pages/main-page";
-
-export function AuthModals() {
-    const { view } = useAuthContext();
-    return (
-    <>
-      {view === "login" && (<LoginCard />)}
-      {view === "register" && (<RegisterCard />)}
-      {view === "success" && (<SuccessCard />)}
-    </>
-    )
-}
-
-export default function App({ Component, pageProps }: AppProps) {
+export default function App() {
   return (
-    <AuthProvider>
-      {/* Modals */}
-      <AuthModals />
-      {/* Navigation bar */}
-      <NavigationBar />
-      {/* Page content */}
-      <div className="mx-[10%]">
-        <MainPage/>
+    <div className="my-20">
+      <h1 className="text-7xl my-5 text-center font-bold gray-900">SaleDrop</h1><br />
+      <div className="text-center text-3xl">
+          Strona do rezerwacji biletów na wydarzenia online<br/>
+          Możliwość zapisu na najciekawsze wydarzenia tylko u nas!
       </div>
-      {/* Footer */}
-      <Footer />
-    </AuthProvider>
+      <Button className="flex mx-auto mt-7 bg-blue-300" variant={"outline"} onClick={() => window.location.href = "/events"}>Sprawdź dostępne wydarzenia</Button>
+    </div>
   );
 }
