@@ -32,6 +32,51 @@ export class ReservationService {
         }
     }
 
+    async cancelReservation(userId: string, ticketId: string) : Promise<void> {
+        const client = await this.db.connect();
+        try {
+            await client.query("BEGIN");
+            const response = await client.query(
+                "DELETE FROM reservations WHERE user_id=$1 AND ticket_id=$2 RETURNING 1",
+                [userId, ticketId]);
+            
+            if(response.rowCount === 0) {
+                throw new AppError("No reservation!", 400);
+            }
+
+            await client.query(
+                "UPDATE ticket_info SET tickets_amount=tickets_amount+1 WHERE ticket_id=$1",
+                [ticketId]
+            );
+            await client.query("COMMIT");
+        } catch(err) {
+            await client.query("ROLLBACK");
+            throw err;
+        } finally {
+            client.release();
+        }
+    }
+
+    async successReservation(userId: string, ticketId: string) : Promise<void> {
+        const client = await this.db.connect();
+        try {
+            await client.query("BEGIN");
+            const response = await client.query(
+                "DELETE FROM reservations WHERE user_id=$1 AND ticket_id=$2 RETURNING 1",
+                [userId, ticketId]);
+            
+            if(response.rowCount === 0) {
+                throw new AppError("No reservation!", 400);
+            }
+            await client.query("COMMIT");
+        } catch(err) {
+            await client.query("ROLLBACK");
+            throw err;
+        } finally {
+            client.release();
+        }
+    }
+
     async checkReservation(userId: string, ticketId: string): Promise<boolean> {
         const response = await this.db.query(
             "SELECT 1 FROM reservations WHERE user_id=$1 AND ticket_id=$2 AND NOW() < end_date LIMIT 1",

@@ -1,6 +1,6 @@
 import type { FastifyPluginAsync } from "fastify";
 
-const EventCard : FastifyPluginAsync = async (
+const EventCardRoute : FastifyPluginAsync = async (
   fastify
 ) : Promise<void> => {
 
@@ -33,4 +33,4 @@ const EventCard : FastifyPluginAsync = async (
     );
 }
 
-export default EventCard;
+export default EventCardRoute;

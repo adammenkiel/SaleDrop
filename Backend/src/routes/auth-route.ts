@@ -6,7 +6,7 @@ import bcrypt from "bcrypt"
 import { LoginSchema } from "../schemas/login-schema";
 import { RegisterSchema } from "../schemas/register-schema";
 
-const Auth : FastifyPluginAsync = async (
+const AuthRoute : FastifyPluginAsync = async (
     fastify
 ) : Promise<void> => {
     fastify.post< { Body: UserProfile } >("/api/auth/login",
@@ -61,4 +61,4 @@ const Auth : FastifyPluginAsync = async (
     );
 }
 
-export default fp(Auth)
+export default AuthRoute;

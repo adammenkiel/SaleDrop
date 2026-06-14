@@ -1,12 +1,9 @@
 import type { FastifyPluginAsync } from "fastify";
 import { jwtDecode } from "jwt-decode";
+import { Token } from "../auth/token";
 
-type Token = {
-    userId: string,
-    userName: string
-};
 
-const AboutMe : FastifyPluginAsync = async (
+const AboutMeRoute : FastifyPluginAsync = async (
   fastify
 ) : Promise<void> => {
     fastify.post('/api/me', async (request, reply) => {
@@ -26,4 +23,4 @@ const AboutMe : FastifyPluginAsync = async (
     });
 }
 
-export default AboutMe;
+export default AboutMeRoute;

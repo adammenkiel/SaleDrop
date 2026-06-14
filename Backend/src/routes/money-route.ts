@@ -1,12 +1,8 @@
 import { FastifyPluginAsync } from "fastify";
 import { jwtDecode } from "jwt-decode";
 import { TicketIdBody, TicketSchema } from "../schemas/ticket-schema";
+import { Token } from "../auth/token";
 
-
-type Token = {
-    userId: string,
-    userName: string
-};
 
 const PayRoute : FastifyPluginAsync = async (
     fastify
