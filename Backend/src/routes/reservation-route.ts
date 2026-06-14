@@ -12,5 +12,6 @@ const ReservationRoute : FastifyPluginAsync = async (
     },
     async (request, reply) => {
       
-  });
+    }
+  );
 }
