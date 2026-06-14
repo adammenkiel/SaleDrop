@@ -39,10 +39,9 @@ export class ReservationService {
         try {
         await client.query("BEGIN ISOLATION LEVEL SERIALIZABLE");
         const ans = await client.query(
-            "DELETE FROM reservations WHERE user_id=$1 AND ticket_id=$2 AND NOW() > end_date RETURNING status",
-            [userId, ticketId]
+            "DELETE FROM reservations WHERE user_id=$1 AND ticket_id=$2 AND (NOW() > end_date OR status=$3) RETURNING status",
+            [userId, ticketId, "SUCCESS"]
         );
-        
         if(ans.rows.length > 0 && ans.rows[0].status === "PENDING") {
             await client.query(
                 "UPDATE ticket_info SET tickets_amount=tickets_amount+1 WHERE ticket_id=$1",
@@ -50,8 +49,10 @@ export class ReservationService {
             );
         }
         await client.query("COMMIT");
+        console.log("COMMIT cleanRes");
         } catch(err) {
             await client.query("ROLLBACK");
+            console.log("rollback cleanRes")
             throw err;
         } finally {
             client.release();

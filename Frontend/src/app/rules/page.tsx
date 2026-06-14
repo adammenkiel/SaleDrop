@@ -1,7 +1,5 @@
 "use client"
 
-import RulesPage from "@/pages/rules-page";
-
 export default function App() {
   return (
     <div className="text-center">

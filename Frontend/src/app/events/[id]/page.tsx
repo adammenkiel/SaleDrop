@@ -93,8 +93,8 @@ export default function App() {
 
             <Button onClick={
                 () => {
+                    setReserved(true);
                     reserve();
-                    setReserved(true)
                 }
             } disabled={alreadyReserving} className="flex mx-auto mt-7 bg-blue-300" variant={"outline"}>
                 {alreadyReserving ? <>Jesteś w trakcie rezerwacji</> : <>Zarezerwuj bilet</>}
