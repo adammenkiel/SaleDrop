@@ -36,7 +36,10 @@ export default function App() {
     }, [id]);
 
     if(card === undefined) return (<></>);
-    if(id === undefined) return(<></>)
+    if(id === undefined) return(<></>);
+    if(typeof id !== "string") {
+      return(<></>);
+    }
     return (
         <>
         {reserved && (
