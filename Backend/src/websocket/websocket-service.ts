@@ -33,5 +33,19 @@ export class WebSocketService {
         this.sessions.delete(session.token);
         this.ticketSessions.get(session.ticketId)?.delete(session);
     }
-    
+
+    public keepAlive() {
+        const dateNow: number = Date.now();
+        for (const sessionToken of [...this.sessions.keys()]) {
+            const session: WebSocketSession | undefined = this.sessions.get(sessionToken);
+            if(!session) {
+                continue;
+            }
+            if(dateNow - session.date > 60000) {
+                this.removeSession(session);
+            }
+            session.sendMessage({keepAlive: Date.now()});
+        }
+    }
+
 }

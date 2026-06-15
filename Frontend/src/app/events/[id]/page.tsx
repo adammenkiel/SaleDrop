@@ -76,6 +76,9 @@ export default function App() {
             if(JSON.parse(event.data).updateTicket) {
                 fetchTicket();
             }
+            if(JSON.parse(event.data).keepAlive) {
+                socket.send(JSON.stringify({keepAlive: Date.now()}));
+            }
             console.log(event.data);
         }
     }, [id]);

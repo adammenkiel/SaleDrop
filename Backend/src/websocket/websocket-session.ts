@@ -14,6 +14,13 @@ export class WebSocketSession {
     public onReceiveMessage(msg: Buffer) {
          const rawText = msg.toString("utf-8");
          const json = JSON.parse(rawText);
+         if(json.keepAlive) {
+            this.date = Date.now();
+         }
          console.log(rawText);
+    }
+
+    public sendMessage(message: any) {
+        this.socket.send(JSON.stringify(message));
     }
 }
