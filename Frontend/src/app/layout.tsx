@@ -25,7 +25,7 @@ export function AuthModals() {
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  
+  const windowHeight = window.innerHeight;
   return (
     <html lang="en" className={cn("font-sans", geist.variable)}>
       <body>

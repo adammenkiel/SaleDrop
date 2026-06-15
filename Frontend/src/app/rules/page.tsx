@@ -2,7 +2,7 @@
 
 export default function App() {
   return (
-    <div className="text-center">
+    <div className="text-center min-h-[calc(100vh-236px)]">
       <h1 className="text-3xl font-bold gray-900">Regulamin</h1><br />
       <strong>§1.</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec enim metus, rutrum eget consequat at, finibus id elit. Cras nulla ante, eleifend non ligula at, posuere vehicula nulla. Sed ex enim, tincidunt sed diam nec, interdum bibendum mi. Integer rhoncus placerat nulla, a sodales enim malesuada sit amet. Sed porttitor hendrerit mi id blandit. Morbi pulvinar, nisi vitae tincidunt sodales, sapien dolor auctor ante, non rhoncus sapien leo a metus. In tristique mauris id libero sodales, et dapibus risus efficitur. Sed ipsum nibh, dapibus nec mollis eget, vehicula ut quam. Vivamus mollis risus sed neque vestibulum dapibus. Duis in sollicitudin purus.
       <br /><br />

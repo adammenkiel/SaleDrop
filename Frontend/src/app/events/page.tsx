@@ -25,7 +25,7 @@ export default function App() {
     }
 
     return (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col min-h-[calc(100vh-236px)] gap-4">
             {data.map((item) => {
                 const card = item as EventCardEntity;
                 return (

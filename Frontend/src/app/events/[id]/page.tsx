@@ -94,7 +94,7 @@ export default function App() {
       return(<></>);
     }
     return (
-        <>
+        <div className="min-h-[calc(100vh-266px)]">
         {reservationState === "reserving" && (
             <ReservationCard ticketId={id} cost={card.cost} setReservationState={setReservationState} setErrorMessage={setErrorMessage} />
         )}
@@ -125,6 +125,6 @@ export default function App() {
                 {alreadyReserving ? <>Jesteś w trakcie rezerwacji</> : <>Zarezerwuj bilet</>}
             </Button>
         </div>
-        </>
+        </div>
     );
 }
