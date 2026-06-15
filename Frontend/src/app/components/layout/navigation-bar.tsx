@@ -11,11 +11,18 @@ import { useEffect, useState } from "react";
 
 export default function NavigationBar() {
     const { setView } = useAuthContext();
-    const isLogged = localStorage.getItem("logged");
-    const [username, setUsername] = useState(localStorage.getItem("nickname"));
-    const [money, setMoney] = useState(localStorage.getItem("money"));
+    const [isLogged, setLogged] = useState(false); // localStorage.getItem("logged")
+    const [username, setUsername] = useState("Ładowanie..."); // localStorage.getItem("nickname")
+    const [money, setMoney] = useState("Ładowanie..."); // localStorage.getItem("money")
 
     useEffect(() => {
+        const logged = !!localStorage.getItem("logged");
+        setLogged(logged);
+        const usr: string = localStorage.getItem("nickname") ?? "Loading...";
+        setUsername(usr);
+        const money = localStorage.getItem("money") ?? "Loading...";
+        setUsername(money);
+
         const fetchMe = async () => {
     	    const response = await fetch("http://localhost:3000/api/me", {
     	    	method: "POST",

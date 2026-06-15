@@ -28,7 +28,8 @@ export class WebSocketService {
         const session: WebSocketSession = new WebSocketSession(
             socket,
             ticketId,
-            this.sessionId);
+            this.sessionId
+        );
         this.sessions.set(this.sessionId, session);
         if(!this.ticketSessions.has(session.ticketId)) {
             this.ticketSessions.set(session.ticketId, new Set<WebSocketSession>());
