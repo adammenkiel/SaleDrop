@@ -28,4 +28,10 @@ export class WebSocketService {
         }
         this.ticketSessions.get(session.ticketId)?.add(session);
     }
+
+    public removeSession(session: WebSocketSession) {
+        this.sessions.delete(session.token);
+        this.ticketSessions.get(session.ticketId)?.delete(session);
+    }
+    
 }

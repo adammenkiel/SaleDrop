@@ -66,6 +66,18 @@ export default function App() {
             setAlreadyReserving(await response.json());
         }
         inReserveProcessCheck();
+
+        const socket = new WebSocket(`ws://localhost:3000/ws?ticketId=${id}`);
+
+        socket.onopen = () => {
+          console.log("Connected");
+        };
+        socket.onmessage = (event) => {
+            if(JSON.parse(event.data).updateTicket) {
+                fetchTicket();
+            }
+            console.log(event.data);
+        }
     }, [id]);
 
     if(card === undefined) return (<></>);

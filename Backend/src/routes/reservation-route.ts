@@ -23,6 +23,7 @@ const ReservationRoute : FastifyPluginAsync = async (
       } catch(err) {
         return false;
       }
+      await fastify.webSocketService.updateTicket(request.body.ticket_id);
       return true;
     }
   );
