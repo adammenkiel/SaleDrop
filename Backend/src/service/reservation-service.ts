@@ -113,9 +113,11 @@ export class ReservationService {
         return response.rows.length > 0;
     }
     async validateReservations() {
+        console.log("Starting...");
+        console.log("PID:", process.pid, "START"); 
         const client = await this.db.connect();
         try {
-            await client.query("BEGIN")
+            await client.query("BEGIN");
             const response = await client.query(`
                 WITH
                     deleted AS (
@@ -132,7 +134,10 @@ export class ReservationService {
         } catch(err) {
             console.log(err);
             console.log("Validation rollback!");
-            client.query("ROLLBACK");
+            await client.query("ROLLBACK");
+        } finally {
+            client.release();
         }
+        console.log("Ending...")
     }
 }

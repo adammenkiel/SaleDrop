@@ -50,14 +50,14 @@ const AuthRoute : FastifyPluginAsync = async (
                 if(id === undefined) {
                     throw new AppError("User is null", 401);
                 }
-                console.log("Creating wallet for id: " + id)
+                fastify.log.info("Creating wallet for id: " + id)
                 await fastify.saleDropPayService.createWallet(id, 1000);
             } catch(err) {
                 if(err instanceof AppError) {
                     reply.code(err.errorCode).send(err.message);
                     return;
                 }
-                console.log(err);
+                fastify.log.info(err);
                 reply.code(500).send("Error: " + err);
                 return;
             }

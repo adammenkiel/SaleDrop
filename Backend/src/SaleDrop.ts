@@ -18,18 +18,18 @@ const App : FastifyPluginAsync = async (
   appOptions
 ) => {
   //Loading special DB plugin 
-  console.log("Connecting with db...")
+  fastify.log.info("Connecting with db...")
 
   try {
     await fastify.register(DBPlugin);
   } catch(err) {
-    console.log("Database connection problem!");
+    fastify.log.info("Database connection problem!");
     process.exit(1);
   }
 
   //JWT
   if(!process.env.JWT_SECRET) {
-    console.log("Config problem!");
+    fastify.log.info("Config problem!");
     process.exit(1);
   }
 
@@ -42,21 +42,21 @@ const App : FastifyPluginAsync = async (
     credentials: true,
   });
 
-  console.log("Completed!");
-  console.log("Plugins are loading...");
+  fastify.log.info("Completed!");
+  fastify.log.info("Plugins are loading...");
   void fastify.register(AutoLoad, {
     dir: path.join(dirname, "plugins"),
     options: appOptions,
     forceESM: true
   });
-  console.log("Completed!");
-  console.log("Modules are loading...");
+  fastify.log.info("Completed!");
+  fastify.log.info("Modules are loading...");
   void fastify.register(AutoLoad, {
     dir: path.join(dirname, "routes"),
     options: appOptions,
     forceESM: true
   });
-  console.log("Completed!");
+  fastify.log.info("Completed!");
   
 }
 

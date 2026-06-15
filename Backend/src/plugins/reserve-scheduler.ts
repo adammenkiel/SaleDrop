@@ -3,7 +3,7 @@ import fp from "fastify-plugin";
 const ReserveScheduler: FastifyPluginAsync = async (
     fastify
 ) : Promise<void> => {
-    console.log("Plugin scheduler!");
+    fastify.log.info("Plugin scheduler!");
     setInterval(() => {
         fastify.reservationService.validateReservations();
     }, 30000);

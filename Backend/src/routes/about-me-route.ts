@@ -14,7 +14,7 @@ const AboutMeRoute : FastifyPluginAsync = async (
         }
         const tokenData = jwtDecode<Token>(token);
         const money = await fastify.saleDropPayService.getUserWalletBalance(tokenData.userName);
-        console.log(money);
+        
         return {
                 id: tokenData.userId,
                 nickName: tokenData.userName,

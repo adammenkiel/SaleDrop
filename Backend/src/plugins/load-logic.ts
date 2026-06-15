@@ -17,12 +17,12 @@ declare module "fastify" {
 const LoadLogic : FastifyPluginAsync = async (
     fastify
 ) : Promise<void> => {
-    console.log("Creating repositories...");
+    fastify.log.info("Creating repositories...");
     fastify.decorate("userRepository", new UserRepository(fastify.db));
     fastify.decorate("eventCardRepository", new EventCardRepository(fastify.db));
     fastify.decorate("saleDropPayService", new SaleDropPayService(fastify.db));
     fastify.decorate("reservationService", new ReservationService(fastify.db));
-    console.log("Created userRepository!");
+    fastify.log.info("Created userRepository!");
 };
 
 export default fp(LoadLogic);
