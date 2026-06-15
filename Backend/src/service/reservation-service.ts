@@ -114,18 +114,25 @@ export class ReservationService {
     }
     async validateReservations() {
         const client = await this.db.connect();
-        await client.query("BEGIN")
-        client.query(`
-            WITH
-                deleted AS (
-                    DELETE FROM reservations WHERE NOW() > end_date AND status=$1 RETURNING ticket_id
-                ),
-                amo AS (
-                    SELECT ticket_id, COUNT(*) AS cnt FROM deleted GROUP BY ticket_id
-                )
-            UPDATE ticket_info ti SET amount = ti.amount + amo.cnt FROM amo WHERE ti.ticket_id = amo.ticket_id;
-        `, ["PENDING"]);
-        await client.query("COMMIT");
-        
+        try {
+            await client.query("BEGIN")
+            const response = await client.query(`
+                WITH
+                    deleted AS (
+                        DELETE FROM reservations WHERE NOW() > end_date AND status=$1 RETURNING ticket_id
+                    ),
+                    amo AS (
+                        SELECT ticket_id, COUNT(*) AS cnt FROM deleted GROUP BY ticket_id
+                    )
+                UPDATE ticket_info ti SET tickets_amount = ti.tickets_amount + amo.cnt FROM amo WHERE ti.ticket_id = amo.ticket_id
+                RETURNING 1;
+            `, ["PENDING"]);
+            await client.query("COMMIT");
+            console.log("Validated "+ response.rows.length + " reservations");
+        } catch(err) {
+            console.log(err);
+            console.log("Validation rollback!");
+            client.query("ROLLBACK");
+        }
     }
 }
