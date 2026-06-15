@@ -40,13 +40,10 @@ const WebSocketInitializer : FastifyPluginAsync = async (
             socket.close();
             return;
         }
-
-        const wsSession: WebSocketSession = new WebSocketSession(
+        const wsSession: WebSocketSession = fastify.webSocketService.createSession(
             socket,
             req.query.ticketId,
-            token);
-
-        fastify.webSocketService.addSession(wsSession);
+        );
         
         socket.on("message", (msg: Buffer) => {
             wsSession.onReceiveMessage(msg);

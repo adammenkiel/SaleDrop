@@ -1,5 +1,6 @@
 import { Pool } from "pg";
 import { AppError } from "../exception/app-errors";
+import { TicketIdBody } from "../schemas/ticket-schema";
 
 
 export class ReservationService {
@@ -112,7 +113,7 @@ export class ReservationService {
         )
         return response.rows.length > 0;
     }
-    async validateReservations() {
+    async validateReservations() : Promise<TicketIdBody[]> {
         console.log("Starting...");
         console.log("PID:", process.pid, "START"); 
         const client = await this.db.connect();
@@ -127,10 +128,11 @@ export class ReservationService {
                         SELECT ticket_id, COUNT(*) AS cnt FROM deleted GROUP BY ticket_id
                     )
                 UPDATE ticket_info ti SET tickets_amount = ti.tickets_amount + amo.cnt FROM amo WHERE ti.ticket_id = amo.ticket_id
-                RETURNING 1;
+                RETURNING ti.ticket_id;
             `, ["PENDING"]);
             await client.query("COMMIT");
             console.log("Validated "+ response.rows.length + " reservations");
+            return response.rows;
         } catch(err) {
             console.log(err);
             console.log("Validation rollback!");
@@ -139,5 +141,6 @@ export class ReservationService {
             client.release();
         }
         console.log("Ending...")
+        return [];
     }
 }

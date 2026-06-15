@@ -1,13 +1,13 @@
 export class WebSocketSession {
     public socket: any;
     public ticketId: string;
-    public token: string;
     public date: number;
+    public sessionId: number;
 
-    constructor(socket: any, ticketId: string, token: string) {
+    constructor(socket: any, ticketId: string, sessionId: number) {
         this.socket = socket;
         this.ticketId = ticketId;
-        this.token = token;
+        this.sessionId = sessionId;
         this.date = Date.now();
     }
 

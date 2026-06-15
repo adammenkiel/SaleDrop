@@ -4,8 +4,14 @@ const ReserveScheduler: FastifyPluginAsync = async (
     fastify
 ) : Promise<void> => {
     fastify.log.info("Plugin scheduler!");
+    
+    const validate = async () => {
+        const tickets = await fastify.reservationService.validateReservations();
+        fastify.webSocketService.updateTickets(tickets);
+    }
+
     setInterval(() => {
-        fastify.reservationService.validateReservations();
+        validate();
     }, 30000);
 }
 
