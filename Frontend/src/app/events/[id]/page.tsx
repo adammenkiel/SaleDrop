@@ -1,16 +1,21 @@
 "use client"
 
 import ReservationCard from "@/components/layout/reserve/reservation-card";
+import ReservationErrorCard from "@/components/layout/reserve/reservation-error-card";
+import ReservationSuccessCard from "@/components/layout/reserve/reservation-success-card";
 import { Button } from "@/components/ui/button";
 import { EventCardEntity } from "@/entities/event-card-entity";
+import { ReservationStateEnum } from "@/logic/reservation-state";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function App() {
+
     const { id } = useParams();
     const [card, setCard] = useState<EventCardEntity>();
-    const [reserved, setReserved] = useState(false);
+    const [reservationState, setReservationState] = useState<ReservationStateEnum>("without"); // responses just for modal
     const [alreadyReserving, setAlreadyReserving] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
     const reserve = async () => {
         const response = await fetch("http://localhost:3000/reserve", {
@@ -27,7 +32,7 @@ export default function App() {
 		});
         if(!await response.json()) {
             setAlreadyReserving(false);
-            setReserved(false);
+            setReservationState("without");
             //window.location.href = "events/" + id;
         }
     }
@@ -90,11 +95,16 @@ export default function App() {
     }
     return (
         <>
-        {reserved && (
-            <>
-                <ReservationCard ticketId={id} cost={card.cost} setReserved={setReserved} />
-            </>
+        {reservationState === "reserving" && (
+            <ReservationCard ticketId={id} cost={card.cost} setReservationState={setReservationState} setErrorMessage={setErrorMessage} />
         )}
+        {reservationState === "error" && (
+            <ReservationErrorCard errorMessage={errorMessage} setReservationState={setReservationState} />
+        )}
+        {reservationState === "success" && (
+            <ReservationSuccessCard setReservationState={setReservationState} />
+        )}
+
         <div className="text-center my-10">
             <h1 className="text-3xl font-bold gray-900">Wydarzenie: {card.name}</h1>
             <h1 className="text-2xl gray-900">Pełny opis: {card.description}</h1>
@@ -108,7 +118,7 @@ export default function App() {
 
             <Button onClick={
                 () => {
-                    setReserved(true);
+                    setReservationState("reserving");
                     reserve();
                 }
             } disabled={alreadyReserving} className="flex mx-auto mt-7 bg-blue-300" variant={"outline"}>

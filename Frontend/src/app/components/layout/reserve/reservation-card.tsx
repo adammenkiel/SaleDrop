@@ -10,12 +10,14 @@ import {
 import { Field, FieldLabel } from "@/components/ui/field";
 
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { ReservationStateEnum } from "@/logic/reservation-state";
 import {type Dispatch, type SetStateAction } from "react";
 
 type ReservationCardProps = {
     ticketId: string;
     cost: number;
-    setReserved: Dispatch<SetStateAction<boolean>>;
+    setReservationState: Dispatch<SetStateAction<ReservationStateEnum>>;
+	setErrorMessage: Dispatch<SetStateAction<string>>;
 }
 
 export default function ReservationCard(props : ReservationCardProps) {
@@ -32,8 +34,17 @@ export default function ReservationCard(props : ReservationCardProps) {
             })
 	    });
         if(response.ok) {
-            window.location.href = "/";
-        }
+			const result = await response.json();
+            if(result === "NO_MONEY") {
+				props.setReservationState("error");
+				props.setErrorMessage("Nie masz pieniędzy na koncie!");
+				return;
+			}
+			props.setReservationState("success");
+        } else {
+			props.setReservationState("error");
+			props.setErrorMessage("Nieznany error, spróbuj ponownie później!");
+		}
     }
     return (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-60">

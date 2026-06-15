@@ -16,7 +16,6 @@ export default function App() {
             credentials: "include"
           });
             const jsonResponse = await response.json();
-            console.log(jsonResponse);
             setData(jsonResponse);
         };
         fetchCards();

@@ -34,7 +34,11 @@ const PayRoute : FastifyPluginAsync = async (
             if(await fastify.reservationService.checkReservation(tokenData.userId, request.body.ticket_id) === false) {
                 return false; //add throw?
             }
-            return fastify.saleDropPayService.payForTicket(tokenData.userName, request.body.ticket_id);
+            try {
+                return fastify.saleDropPayService.payForTicket(tokenData.userName, request.body.ticket_id);
+            } catch (err) {
+                return "NO_MONEY";
+            }
         }
     );
 }
