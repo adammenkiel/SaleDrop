@@ -59,7 +59,7 @@ export class SaleDropPayService {
             await client.query("UPDATE reservations SET status=$3 WHERE user_id=$1 AND ticket_id=$2", [userId, ticket_id, "SUCCESS"]);
             const res = await client.query("UPDATE wallet SET money=money-$1 WHERE id=$2 AND money>=$1 RETURNING money", [cost, userId]);
             if(res.rows.length === 0) {
-                throw new AppError("Don't have enough money!", 400);
+                throw new AppError("NO_MONEY", 400);
             }
             await client.query("COMMIT");
             return res;

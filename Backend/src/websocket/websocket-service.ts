@@ -57,5 +57,4 @@ export class WebSocketService {
             session.sendMessage({keepAlive: Date.now()});
         }
     }
-
 }

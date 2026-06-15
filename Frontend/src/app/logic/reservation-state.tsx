@@ -1,2 +1,2 @@
 
-export type ReservationStateEnum = "success" | "reserving" | "without";
+export type ReservationStateEnum = "success" | "reserving" | "without" | "error";

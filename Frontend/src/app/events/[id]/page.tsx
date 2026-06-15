@@ -99,10 +99,10 @@ export default function App() {
             <ReservationCard ticketId={id} cost={card.cost} setReservationState={setReservationState} setErrorMessage={setErrorMessage} />
         )}
         {reservationState === "error" && (
-            <ReservationErrorCard errorMessage={errorMessage} setReservationState={setReservationState} />
+            <ReservationErrorCard errorMessage={errorMessage} />
         )}
         {reservationState === "success" && (
-            <ReservationSuccessCard setReservationState={setReservationState} />
+            <ReservationSuccessCard />
         )}
 
         <div className="text-center my-10">

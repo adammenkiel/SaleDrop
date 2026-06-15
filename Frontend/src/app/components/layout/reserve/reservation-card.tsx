@@ -33,16 +33,17 @@ export default function ReservationCard(props : ReservationCardProps) {
                 ticket_id: ticketId
             })
 	    });
+
         if(response.ok) {
-			const result = await response.json();
+			props.setReservationState("success");
+        } else {
+			const result = await response.text();
+
+			props.setReservationState("error");
             if(result === "NO_MONEY") {
-				props.setReservationState("error");
 				props.setErrorMessage("Nie masz pieniędzy na koncie!");
 				return;
 			}
-			props.setReservationState("success");
-        } else {
-			props.setReservationState("error");
 			props.setErrorMessage("Nieznany error, spróbuj ponownie później!");
 		}
     }
