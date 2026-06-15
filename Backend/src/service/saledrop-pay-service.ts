@@ -33,9 +33,6 @@ export class SaleDropPayService {
         console.log(userName + " " + ticket_id)
         const cost = (await this.db.query("SELECT cost FROM tickets WHERE ticket_id=$1", [ticket_id])).rows[0].cost;
         const userId = (await this.db.query("SELECT id FROM users WHERE username=$1", [userName])).rows[0].id;
-        
-        const client = await this.db.connect();
-        client.query("BEGIN")
         const res = await this.buyQuery(userId, ticket_id, cost);
         
 

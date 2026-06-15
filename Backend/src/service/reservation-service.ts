@@ -112,4 +112,20 @@ export class ReservationService {
         )
         return response.rows.length > 0;
     }
+    async validateReservations() {
+        const client = await this.db.connect();
+        await client.query("BEGIN")
+        client.query(`
+            WITH
+                deleted AS (
+                    DELETE FROM reservations WHERE NOW() > end_date AND status=$1 RETURNING ticket_id
+                ),
+                amo AS (
+                    SELECT ticket_id, COUNT(*) AS cnt FROM deleted GROUP BY ticket_id
+                )
+            UPDATE ticket_info ti SET amount = ti.amount + amo.cnt FROM amo WHERE ti.ticket_id = amo.ticket_id;
+        `, ["PENDING"]);
+        await client.query("COMMIT");
+        
+    }
 }
