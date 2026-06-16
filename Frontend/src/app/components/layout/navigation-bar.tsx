@@ -28,7 +28,7 @@ export default function NavigationBar() {
         setUsername(money);
 
         const fetchMe = async () => {
-    	    const response = await fetch("http://localhost:3000/api/me", {
+    	    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/me`, {
     	    	method: "POST",
     	    	credentials: "include"
     	    });

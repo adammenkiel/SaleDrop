@@ -17,7 +17,6 @@ export class WebSocketSession {
          if(json.keepAlive) {
             this.date = Date.now();
          }
-         console.log(rawText);
     }
 
     public sendMessage(message: any) {

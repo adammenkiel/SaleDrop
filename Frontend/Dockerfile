@@ -1,19 +1,16 @@
-FROM node:20 AS builder
+FROM node:20
 
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm ci
+RUN npm install
 
 COPY . .
-RUN npm run build
+RUN apt-get update && apt-get install -y curl
 
-FROM node:20
-WORKDIR /app
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-COPY --from=builder /app ./
-
-ENV NODE_ENV=production
 EXPOSE 5173
 
-CMD ["npm", "run", "start"]
+CMD ["./entrypoint.sh"]

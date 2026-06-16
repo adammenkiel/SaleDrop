@@ -24,7 +24,7 @@ export default function RegisterCard() {
     const [password, setPassword] = useState("");
 
 	const fetchRegister = async (username: string, email: string, password: string) => {
-		const response = await fetch("http://localhost:3000/api/auth/register", {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/register`, {
 			method: "POST",
 			credentials: "include",
 			headers: {

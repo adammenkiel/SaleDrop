@@ -25,5 +25,12 @@ services:
             DB_NAME: saledrop
             DB_PORT: 5432
             JWT_SECRET: supersecret
+    frontend:
+        build: ./Frontend
+        container_name: saledrop_frontend
+        ports:
+            - "5173:5173"
+        depends_on:
+            - backend
 volumes:
     pgdata:

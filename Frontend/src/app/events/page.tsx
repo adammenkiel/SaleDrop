@@ -3,7 +3,7 @@ import { EventCardEntity } from "@/entities/event-card-entity";
 
 
 async function fetchCards() {
-  const response = await fetch("http://localhost:3000/api/cards", {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_SSG_API_URL}/api/cards`, {
     next: { revalidate: 60 }
   });
   return response.json();

@@ -50,10 +50,8 @@ export class ReservationService {
             );
         }
         await client.query("COMMIT");
-        console.log("COMMIT cleanRes");
         } catch(err) {
             await client.query("ROLLBACK");
-            console.log("rollback cleanRes")
             throw err;
         } finally {
             client.release();
@@ -114,8 +112,6 @@ export class ReservationService {
         return response.rows.length > 0;
     }
     async validateReservations() : Promise<TicketIdBody[]> {
-        console.log("Starting...");
-        console.log("PID:", process.pid, "START"); 
         const client = await this.db.connect();
         try {
             await client.query("BEGIN");
@@ -140,7 +136,6 @@ export class ReservationService {
         } finally {
             client.release();
         }
-        console.log("Ending...")
         return [];
     }
 }

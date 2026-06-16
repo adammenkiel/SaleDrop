@@ -23,7 +23,7 @@ type ReservationCardProps = {
 export default function ReservationCard(props : ReservationCardProps) {
 
     const pay = async (ticketId: string) => { // to correct
-	    const response = await fetch("http://localhost:3000/pay", {
+	    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pay`, {
 	    	method: "POST",
 	    	credentials: "include",
 	    	headers: {

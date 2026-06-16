@@ -18,7 +18,7 @@ export default function App() {
     const [errorMessage, setErrorMessage] = useState("");
 
     const reserve = async () => {
-        const response = await fetch("http://localhost:3000/reserve", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/reserve`, {
 			method: "POST",
 			credentials: "include",
 			headers: {
@@ -50,7 +50,7 @@ export default function App() {
 
         const fetchTicket = async () => {
 	        try {
-                const response = await fetch("http://localhost:3000/api/card/" + id, {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/card/` + id, {
 	            	method: "GET",
 	            	credentials: "include",
 	            	headers: {
@@ -66,7 +66,7 @@ export default function App() {
         fetchTicket();
 
         const inReserveProcessCheck = async () => { // to correct
-	        const response = await fetch("http://localhost:3000/reserve/" + id, {
+	        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/reserve/` + id, {
 	        	method: "GET",
 	        	credentials: "include",
 	        	headers: {
@@ -77,7 +77,7 @@ export default function App() {
         }
         inReserveProcessCheck();
 
-        const socket = new WebSocket(`ws://localhost:3000/ws?ticketId=${id}`);
+        const socket = new WebSocket(`${process.env.NEXT_PUBLIC_API_URL}/ws?ticketId=${id}`);
 
         socket.onopen = () => {
           console.log("Connected");
@@ -89,7 +89,6 @@ export default function App() {
             if(JSON.parse(event.data).keepAlive) {
                 socket.send(JSON.stringify({keepAlive: Date.now()}));
             }
-            console.log(event.data);
         }
     }, [id]);
 

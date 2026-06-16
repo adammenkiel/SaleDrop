@@ -12,7 +12,6 @@ export class WebSocketService {
     }
 
     public updateTicket(ticketId: string) {
-        console.log(JSON.stringify(this.ticketSessions.get(ticketId)));
         this.ticketSessions.get(ticketId)?.forEach((session) => {
             session.socket.send(JSON.stringify({updateTicket: ticketId}));
         });

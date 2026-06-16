@@ -21,7 +21,7 @@ export default function LoginCard() {
 	const [password, setPassword] = useState("");
 
 	const fetchLogin = async (username: string, password: string) => {
-		const response = await fetch("http://localhost:3000/api/auth/login", {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}api/auth/login`, {
 			method: "POST",
 			credentials: "include",
 			headers: {
