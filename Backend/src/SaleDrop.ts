@@ -38,7 +38,7 @@ const App : FastifyPluginAsync = async (
   })
   await fastify.register(cookie);
   await fastify.register(cors, {
-    origin: "http://localhost:5173",
+    origin: process.env.CORS,
     credentials: true,
   });
 

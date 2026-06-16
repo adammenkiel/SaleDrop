@@ -11,8 +11,8 @@ const server = Fastify({
 const start = async () => {
   try {
     await server.register(App);
-    await server.listen({ port: 3000, host: '0.0.0.0' });
-    server.log.info('Server running on http://localhost:3000');
+    await server.listen({ port: Number(process.env.SERVER_PORT), host: process.env.SERVER_HOST });
+    server.log.info(`Server running on http://${process.env.SERVER_HOST}:${process.env.SERVER_PORT}/`);
   } catch (err) {
     server.log.error(err);
     process.exit(1);

@@ -25,6 +25,9 @@ services:
             DB_NAME: saledrop
             DB_PORT: 5432
             JWT_SECRET: supersecret
+            SERVER_HOST: 0.0.0.0
+            SERVER_PORT: 3000
+            CORS: http://localhost:5173
     frontend:
         build: ./Frontend
         container_name: saledrop_frontend
