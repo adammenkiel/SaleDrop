@@ -47,7 +47,7 @@ export default function NavigationBar() {
         if(isLogged) {
             fetchMe();
         }
-    }, [isLogged]);
+    }, [isLogged, setView, view]);
     
     return (
         <div className="flex sticky items-center top-0 w-full h-13 mb-2 px-4 bg-blue-400/50 backdrop-blur">

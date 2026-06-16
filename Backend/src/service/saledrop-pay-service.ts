@@ -62,7 +62,10 @@ export class SaleDropPayService {
             return res;
         } catch(err) {
             await client.query("ROLLBACK");
+            client.release();
             throw err;
+        } finally {
+            client.release();
         }
     }
 
