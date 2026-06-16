@@ -18,6 +18,10 @@ export default function NavigationBar() {
     useEffect(() => {
         const logged = !!localStorage.getItem("logged");
         setLogged(logged);
+
+        if(!logged && window.location.pathname.startsWith("/events")) { // good to correct
+            window.location.href = "/";
+        }
         const usr: string = localStorage.getItem("nickname") ?? "Loading...";
         setUsername(usr);
         const money = localStorage.getItem("money") ?? "Loading...";
