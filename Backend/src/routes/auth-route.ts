@@ -25,10 +25,12 @@ const AuthRoute : FastifyPluginAsync = async (
                 {expiresIn: "1h"}
             );
 
+            const isHttpOnly = process.env.HTTP_ONLY === "true";
+            const isSecure = process.env.SECURE === "true";
             reply.setCookie("token", token, {
                 path: '/',
-                httpOnly: true,
-                secure: false,
+                httpOnly: isHttpOnly,
+                secure: isSecure,
                 maxAge: 60*60,
                 sameSite: 'lax'
             });
