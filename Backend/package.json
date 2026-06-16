@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/run.ts",
-    "start": "tsx src/run.ts"
+    "dev": "tsx watch src/Run.ts",
+    "start": "tsx src/Run.ts"
   },
   "dependencies": {
     "@fastify/autoload": "^6.3.1",
