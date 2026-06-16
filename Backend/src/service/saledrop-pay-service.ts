@@ -18,20 +18,8 @@ export class SaleDropPayService {
         return res.rows[0]?.money ?? 0;
     }
 
-    /**
-    @depreated it's recommended to use payForTicket function
-    */
-    async payMoney(userName: string, money: number) {
-        const userId = (await this.db.query("SELECT id FROM users WHERE username=$1", [userName])).rows[0].id;
-        const res = await this.db.query("UPDATE wallet SET money=money-$1 WHERE id=$2 AND money>=$1 RETURNING money", [money, userId]);
-        if(res == null || res.rowCount == null || res.rows.length == 0)
-            return {result: false};
-        return {result: res.rowCount > 0};
-    }
-
     async payForTicket(userName: string, ticket_id: string) 
     {
-        console.log(userName + " " + ticket_id)
         const cost = (await this.db.query("SELECT cost FROM tickets WHERE ticket_id=$1", [ticket_id])).rows[0].cost;
         const userId = (await this.db.query("SELECT id FROM users WHERE username=$1", [userName])).rows[0].id;
         const res = await this.buyQuery(userId, ticket_id, cost);
@@ -52,11 +40,21 @@ export class SaleDropPayService {
         return {result: res.rowCount > 0};
     }
 
-    async buyQuery(userId: string, ticket_id: string, cost: number) : Promise<QueryResult<any>> {
+    async buyQuery(userId: string, ticketId: string, cost: number) : Promise<QueryResult<any>> {
         const client = await this.db.connect();
         try {
             await client.query("BEGIN");
-            await client.query("UPDATE reservations SET status=$3 WHERE user_id=$1 AND ticket_id=$2", [userId, ticket_id, "SUCCESS"]);
+            const reservationInfo = await client.query("SELECT *, end_date<NOW() AS expired FROM reservations WHERE user_id=$1 AND ticket_id=$2 FOR UPDATE", [userId, ticketId]);
+            if(reservationInfo.rows.length === 0) {
+                throw new AppError("RESERVATION_EXPIRED", 400);
+            }
+            if(reservationInfo.rows[0].status === "SUCCESS") {
+                throw new AppError("RESERVATION_ALREADY_PAID", 400);
+            }
+            if(reservationInfo.rows[0].expired) {
+                throw new AppError("RESERVATION_EXPIRED", 400);
+            }
+            await client.query("UPDATE reservations SET status=$3 WHERE user_id=$1 AND ticket_id=$2", [userId, ticketId, "SUCCESS"]);
             const res = await client.query("UPDATE wallet SET money=money-$1 WHERE id=$2 AND money>=$1 RETURNING money", [cost, userId]);
             if(res.rows.length === 0) {
                 throw new AppError("NO_MONEY", 400);

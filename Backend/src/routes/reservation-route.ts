@@ -18,13 +18,15 @@ const ReservationRoute : FastifyPluginAsync = async (
           return;
       }
       const tokenData = jwtDecode<Token>(token); // validated by page-preload.ts
+      let success: boolean;
       try {
+        success = true;
         await fastify.reservationService.startReservation(tokenData.userId, request.body.ticket_id);
       } catch(err) {
-        return false;
+        success = false;
       }
       await fastify.webSocketService.updateTicket(request.body.ticket_id);
-      return true;
+      return success;
     }
   );
   fastify.get<{Params: TicketIdBody}>("/reserve/:ticket_id",

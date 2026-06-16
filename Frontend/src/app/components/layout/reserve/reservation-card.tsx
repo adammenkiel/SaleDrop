@@ -40,8 +40,21 @@ export default function ReservationCard(props : ReservationCardProps) {
 			const result = await response.text();
 
 			props.setReservationState("error");
-            if(result === "NO_MONEY") {
+			//It could be done better
+			if(result === "NO_MONEY") {
 				props.setErrorMessage("Nie masz pieniędzy na koncie!");
+				return;
+			}
+			if(result === "RESERVATION_EXPIRED_OR_ALREADY_PAID") {
+				props.setErrorMessage("Rezerwacja została przedawniona lub opłacona!");
+				return;
+			}
+			if(result === "RESERVATION_EXPIRED") {
+				props.setErrorMessage("Rezerwacja została przedawniona!");
+				return;
+			}
+			if(result === "RESERVATION_ALREADY_PAID") {
+				props.setErrorMessage("Rezerwacja została już opłacona!");
 				return;
 			}
 			props.setErrorMessage("Nieznany error, spróbuj ponownie później!");

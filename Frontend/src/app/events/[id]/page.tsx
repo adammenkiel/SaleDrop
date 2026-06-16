@@ -30,6 +30,7 @@ export default function App() {
 				}
 			)
 		});
+        console.log(response.status);
         if(!await response.json()) {
             setAlreadyReserving(false);
             setReservationState("without");
@@ -136,9 +137,18 @@ export default function App() {
                     setReservationState("reserving");
                     reserve();
                 }
-            } disabled={alreadyReserving} className="flex mx-auto mt-7 bg-blue-300" variant={"outline"}>
-                {alreadyReserving ? <>Jesteś w trakcie rezerwacji</> : <>Zarezerwuj bilet</>}
+            } disabled={alreadyReserving || card.amount===0} className="flex mx-auto mt-7 bg-blue-300" variant={"outline"}>
+                {alreadyReserving ? 
+                    <>Jesteś w trakcie rezerwacji</> 
+                : 
+                    (
+                        <>
+                            {card.amount===0 ? <>Rezerwacja niedostępna</> : <>Zarezerwuj bilet</>}
+                        </>
+                    )
+                }
             </Button>
+            
         </div>
         </div>
     );
