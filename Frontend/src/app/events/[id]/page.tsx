@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 export default function App() {
 
     const { id } = useParams();
-    const [card, setCard] = useState<EventCardEntity>();
+    const [card, setCard] = useState<EventCardEntity | string>("Loading...");
     const [reservationState, setReservationState] = useState<ReservationStateEnum>("without"); // responses just for modal
     const [alreadyReserving, setAlreadyReserving] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
@@ -48,15 +48,19 @@ export default function App() {
         };
 
         const fetchTicket = async () => {
-	        const response = await fetch("http://localhost:3000/api/card/" + id, {
-	        	method: "GET",
-	        	credentials: "include",
-	        	headers: {
-	        		"Content-Type": "application/json"
-	        	}
-	        });
-            const json = await response.json();
-            setCard(parse(json));
+	        try {
+                const response = await fetch("http://localhost:3000/api/card/" + id, {
+	            	method: "GET",
+	            	credentials: "include",
+	            	headers: {
+	            		"Content-Type": "application/json"
+	            	}
+	            });
+                const json = await response.json();
+                setCard(parse(json));
+            } catch {
+                setCard("Auth");
+            }
         }
         fetchTicket();
 
@@ -88,10 +92,21 @@ export default function App() {
         }
     }, [id]);
 
-    if(card === undefined) return (<></>);
-    if(id === undefined) return(<></>);
-    if(typeof id !== "string") {
-      return(<></>);
+    const throwInformation = () => {
+        return (
+        <div className="text-3xl text-center my-10">
+            Prosimy się zarejestrować lub zalogować!
+        </div>
+      )
+    };
+    if(card === undefined) return throwInformation();
+    if(id === undefined) throwInformation();
+    if(typeof id !== "string") return throwInformation();
+    if(typeof card === "string")  {
+        if(card === "Auth") {
+            return throwInformation();
+        }
+        return (<></>);
     }
     return (
         <div className="min-h-[calc(100vh-266px)]">

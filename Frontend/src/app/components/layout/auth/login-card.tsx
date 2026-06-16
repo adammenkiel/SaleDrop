@@ -49,7 +49,7 @@ export default function LoginCard() {
 					Proszę wprowadzić nazwę użytkownika i hasło aby się zalogować
 				</CardDescription>
 				<CardAction>
-					<Button variant="link">Rejestracja</Button>
+					<Button variant="link" onClick={() => {setView("register")}}>Rejestracja</Button>
 				</CardAction>
 			</CardHeader>
 			<CardContent>

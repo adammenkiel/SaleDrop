@@ -10,7 +10,7 @@ import { useAuthContext } from "@/logic/auth-context";
 import { useEffect, useState } from "react";
 
 export default function NavigationBar() {
-    const { setView } = useAuthContext();
+    const { view, setView } = useAuthContext();
     const [isLogged, setLogged] = useState(false); // localStorage.getItem("logged")
     const [username, setUsername] = useState("Ładowanie..."); // localStorage.getItem("nickname")
     const [money, setMoney] = useState("Ładowanie..."); // localStorage.getItem("money")
@@ -19,8 +19,8 @@ export default function NavigationBar() {
         const logged = !!localStorage.getItem("logged");
         setLogged(logged);
 
-        if(!logged && window.location.pathname.startsWith("/events")) { // good to correct
-            window.location.href = "/";
+        if(!logged && window.location.pathname.startsWith("/events/")) { // good to correct
+            if(view !== "login" && view !== "register") setView("register");
         }
         const usr: string = localStorage.getItem("nickname") ?? "Loading...";
         setUsername(usr);
@@ -56,11 +56,9 @@ export default function NavigationBar() {
                     <NavigationMenuItem onClick={() => {window.location.href = "/"}} className = "px-2">
                         <NavigationMenuLink>Strona główna</NavigationMenuLink>
                     </NavigationMenuItem>
-                    {isLogged && (
-                        <NavigationMenuItem onClick={() => {window.location.href = "/events"}} className = "px-2">
-                            <NavigationMenuLink>Wydarzenia</NavigationMenuLink>
-                        </NavigationMenuItem>
-                    )}
+                    <NavigationMenuItem onClick={() => {window.location.href = "/events"}} className = "px-2">
+                        <NavigationMenuLink>Wydarzenia</NavigationMenuLink>
+                    </NavigationMenuItem>
                     <NavigationMenuItem onClick={() => {window.location.href = "/rules"}} className = "px-2">
                         <NavigationMenuLink>Regulamin</NavigationMenuLink>
                     </NavigationMenuItem>

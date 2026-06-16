@@ -1,33 +1,20 @@
-"use client"
-
 import EventCard from "@/components/layout/event-card";
 import { EventCardEntity } from "@/entities/event-card-entity";
-import { useEffect, useState } from "react";
 
 
-export default function App() {
+async function fetchCards() {
+  const response = await fetch("http://localhost:3000/api/cards", {
+    next: { revalidate: 60 }
+  });
+  return response.json();
+};
+
+export default async function App() {
     //Temporary
-    const [data, setData]= useState<EventCardEntity[]>([]);
-  
-    useEffect(() => {
-        const fetchCards = async () => {
-          const response = await fetch("http://localhost:3000/api/cards", {
-            method: "GET",
-            credentials: "include"
-          });
-            const jsonResponse = await response.json();
-            setData(jsonResponse);
-        };
-        fetchCards();
-    }, []);
-    if(data.length == 0) {
-        return (<></>);
-    }
-
+    const data: EventCardEntity[] = await fetchCards();
     return (
         <div className="flex flex-col min-h-[calc(100vh-236px)] gap-4">
-            {data.map((item) => {
-                const card = item as EventCardEntity;
+            {data.map((card) => {
                 return (
                     <EventCard 
                         ticketId={card.ticket_id}

@@ -51,7 +51,7 @@ export default function RegisterCard() {
 					Aby utworzyć nowe konto, proszę wprowadzić swoją nazwę użytkownika, email i hasło.
 				</CardDescription>
 				<CardAction>
-					<Button variant="link">Log in</Button>
+					<Button variant="link" onClick={() => {setView("login")}}>Zaloguj się</Button>
 				</CardAction>
 			</CardHeader>
 			<CardContent>

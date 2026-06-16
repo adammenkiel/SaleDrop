@@ -6,7 +6,7 @@ const PreRequest : FastifyPluginAsync = async (
 ) : Promise<void> => {
     fastify.addHook("onRequest", (request, reply, done) => {
 
-        if(request.url.startsWith("/api/auth")) {
+        if(request.url.startsWith("/api/auth") || request.url == "/api/cards") {
             done();
             return;
         }

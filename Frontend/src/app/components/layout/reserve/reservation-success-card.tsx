@@ -6,8 +6,6 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import { ReservationStateEnum } from "@/logic/reservation-state"
-import { Dispatch, SetStateAction } from "react"
 
 export default function ReservationSuccessCard() {
     return (

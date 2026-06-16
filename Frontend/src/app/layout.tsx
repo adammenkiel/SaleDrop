@@ -34,7 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {/* Navigation bar */}
           <NavigationBar />
           {/* Page content */}
-          <div className="mx-[10%]">
+          <div className="mx-[10%] min-h-[calc(100vh-266px)]">
             {children}
           </div>
           {/* Footer */}
