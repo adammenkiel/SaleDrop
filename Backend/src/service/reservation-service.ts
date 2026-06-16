@@ -112,6 +112,12 @@ export class ReservationService {
         )
         return response.rows.length > 0;
     }
+
+    async validateSuccessReservations() {
+        try {
+            await this.db.query("DELETE FROM reservations WHERE status=$1", ["SUCCESS"]);
+        } catch(err) {}
+    }
     async validateReservations() : Promise<TicketIdBody[]> {
         const client = await this.db.connect();
         try {

@@ -7,6 +7,7 @@ const ReserveScheduler: FastifyPluginAsync = async (
     
     const validate = async () => {
         const tickets = await fastify.reservationService.validateReservations();
+        await fastify.reservationService.validateSuccessReservations();
         fastify.webSocketService.updateTickets(tickets);
     }
 
